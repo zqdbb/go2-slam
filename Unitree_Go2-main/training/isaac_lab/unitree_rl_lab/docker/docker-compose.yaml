@@ -1,0 +1,62 @@
+x-default-isaac-lab-template-environment: &default-isaac-lab-template-environment
+  - OMNI_KIT_ALLOW_ROOT=1
+  - DISPLAY=${DISPLAY}
+  - NVIDIA_DRIVER_CAPABILITIES=all
+
+x-default-isaac-lab-template-deploy: &default-isaac-lab-template-deploy
+  resources:
+    reservations:
+      devices:
+        - driver: nvidia
+          count: all
+          capabilities: [ gpu ]
+
+services:
+  isaac-lab-template:
+    env_file: .env.base
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+      args:
+        - ISAACLAB_BASE_IMAGE_ARG=${ISAACLAB_BASE_IMAGE}
+        - DOCKER_ISAACLAB_EXTENSION_TEMPLATE_PATH_ARG=${DOCKER_ISAACLAB_EXTENSION_TEMPLATE_PATH}
+    image: isaac-lab-template
+    container_name: isaac-lab-template
+    volumes:
+      - type: bind
+        source: ../
+        target: ${DOCKER_ISAACLAB_EXTENSION_TEMPLATE_PATH}
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+    network_mode: host
+    environment: *default-isaac-lab-template-environment
+    deploy: *default-isaac-lab-template-deploy
+    entrypoint: bash
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  go2-slam-rl-humble:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.ros2_humble_go2
+    image: go2-slam-rl:humble
+    container_name: go2-slam-rl-humble
+    network_mode: host
+    ipc: host
+    pid: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - HOME=${HOME}
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}:${HOME}:rw
+      - ../:/workspace/unitree_rl_lab:rw
+    working_dir: /workspace/unitree_rl_lab
+    deploy: *default-isaac-lab-template-deploy
+    stdin_open: true
+    tty: true

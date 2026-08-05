@@ -1,0 +1,271 @@
+<mujoco model="go2_icra2024_sloped">
+  <!--
+    ICRA 2024 Quadruped Robot Challenge — Sloped (경사 코스)
+    맵 출처: github.com/teamgrit-lab/ICRA2024_Quadruped_Robot_Challenges
+    원본 URDF: map_sloped.urdf (171개 부품 완전 파싱)
+    맵 크기: 13.1m x 9.6m
+    단위: 미터 (m), 스케일 변환 불필요
+  -->
+
+  <include file="go2.xml"/>
+
+  <statistic center="0 0 0.5" extent="8.0"/>
+
+  <visual>
+    <headlight diffuse="0.7 0.7 0.7" ambient="0.4 0.4 0.4" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="-130" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient"
+             rgb1="0.4 0.6 0.8" rgb2="0.05 0.05 0.15"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker"
+             mark="edge" rgb1="0.25 0.25 0.25" rgb2="0.2 0.2 0.2"
+             markrgb="0.5 0.5 0.5" width="200" height="200"/>
+    <material name="groundplane" texture="groundplane"
+              texuniform="true" texrepeat="20 20" reflectance="0.1"/>
+
+    <!-- ICRA 2024 부품 메쉬 14종 -->
+    <mesh name="icra2024_board_18x600x1032" file="icra2024/board_18x600x1032.obj"/>
+    <mesh name="icra2024_board_18x600x1200" file="icra2024/board_18x600x1200.obj"/>
+    <mesh name="icra2024_board_18x600x150" file="icra2024/board_18x600x150.obj"/>
+    <mesh name="icra2024_board_18x600x2400" file="icra2024/board_18x600x2400.obj"/>
+    <mesh name="icra2024_board_50x50x300" file="icra2024/board_50x50x300.obj"/>
+    <mesh name="icra2024_crate_board" file="icra2024/crate_board.obj"/>
+    <mesh name="icra2024_k_rail_diagonal" file="icra2024/k_rail_diagonal.obj"/>
+    <mesh name="icra2024_lane_floor" file="icra2024/lane_floor.obj"/>
+    <mesh name="icra2024_pallet_step" file="icra2024/pallet_step.obj"/>
+    <mesh name="icra2024_pallet_step_with_pipe" file="icra2024/pallet_step_with_pipe.obj"/>
+    <mesh name="icra2024_pvc_pipe_100x1200" file="icra2024/pvc_pipe_100x1200.obj"/>
+    <mesh name="icra2024_ramp" file="icra2024/ramp.obj"/>
+    <mesh name="icra2024_stepover_1" file="icra2024/stepover_1.obj"/>
+    <mesh name="icra2024_stepover_2" file="icra2024/stepover_2.obj"/>
+  </asset>
+
+  <worldbody>
+    <light name="sun" pos="0 0 10" dir="0 0 -1" directional="true"
+           diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2"/>
+    <light name="fill" pos="5 5 5" dir="-1 -1 -1" directional="true"
+           diffuse="0.3 0.3 0.3"/>
+
+    <!-- 안전 바닥 -->
+    <geom name="safety_floor" type="plane" size="50 50 0.1"
+          material="groundplane" pos="0 0 -0.1"
+          contype="1" conaffinity="1"/>
+
+    <!-- ===== ICRA 2024 map_sloped.urdf — 171개 부품 ===== -->
+
+    <!-- board_18x600x1032 (4개) -->
+    <geom name="board_18x600x1032_38" type="mesh" mesh="icra2024_board_18x600x1032" pos="1.4110000009077655 3.602500000001875 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1032_109" type="mesh" mesh="icra2024_board_18x600x1032" pos="-0.9889999990922331 3.62050000000182 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1032_138" type="mesh" mesh="icra2024_board_18x600x1032" pos="1.4110000009077655 -3.6024999999981335 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1032_175" type="mesh" mesh="icra2024_board_18x600x1032" pos="-0.9889999990922331 -3.6024999999981877 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- board_18x600x1200 (20개) -->
+    <geom name="board_18x600x1200_35" type="mesh" mesh="icra2024_board_18x600x1200" pos="-0.46399999909223233 4.21149999999938 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_36" type="mesh" mesh="icra2024_board_18x600x1200" pos="6.754000000908388 3.0115000000031142 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_37" type="mesh" mesh="icra2024_board_18x600x1200" pos="4.9630000009077655 3.6205000000018748 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_49" type="mesh" mesh="icra2024_board_18x600x1200" pos="4.163785996571869 4.211500000001801 0.9850226928574939" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_63" type="mesh" mesh="icra2024_board_18x600x1200" pos="2.1262140052444005 3.0115000000005505 0.9850226928582748" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_99" type="mesh" mesh="icra2024_board_18x600x1200" pos="-6.331999999092233 4.211499999999377 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_100" type="mesh" mesh="icra2024_board_18x600x1200" pos="0.8860000009083877 3.0115000000031116 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_108" type="mesh" mesh="icra2024_board_18x600x1200" pos="-4.540999999092234 3.6025000000018723 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_116" type="mesh" mesh="icra2024_board_18x600x1200" pos="-1.7042140034281306 4.211500000001798 0.9850226928574939" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_124" type="mesh" mesh="icra2024_board_18x600x1200" pos="-3.7417859947556 3.0115000000005483 0.9850226928582746" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_135" type="mesh" mesh="icra2024_board_18x600x1200" pos="-0.46399999909223233 -4.211500000000629 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_136" type="mesh" mesh="icra2024_board_18x600x1200" pos="6.754000000908388 -3.0114999999968943 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_137" type="mesh" mesh="icra2024_board_18x600x1200" pos="4.9630000009077655 -3.6024999999981335 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_148" type="mesh" mesh="icra2024_board_18x600x1200" pos="2.1262140052444005 -3.011499999999457 0.9850226928582746" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_158" type="mesh" mesh="icra2024_board_18x600x1200" pos="4.163785996571869 -4.211499999998206 0.9850226928574939" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_166" type="mesh" mesh="icra2024_board_18x600x1200" pos="-6.331999999092233 -4.211500000000631 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_167" type="mesh" mesh="icra2024_board_18x600x1200" pos="0.8860000009083877 -3.011499999996896 0.30000000000000004" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_174" type="mesh" mesh="icra2024_board_18x600x1200" pos="-4.540999999092234 -3.6024999999981353 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_183" type="mesh" mesh="icra2024_board_18x600x1200" pos="-1.7042140034281306 -4.211499999998209 0.9850226928574938" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x1200_194" type="mesh" mesh="icra2024_board_18x600x1200" pos="-3.7417859947556 -3.0114999999994594 0.9850226928582747" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- board_18x600x150 (15개) -->
+    <geom name="board_18x600x150_39" type="mesh" mesh="icra2024_board_18x600x150" pos="6.670000000907766 3.6205000000018748 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_44" type="mesh" mesh="icra2024_board_18x600x150" pos="-0.37999999909223137 3.620500000001872 0.41100000000000003" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_50" type="mesh" mesh="icra2024_board_18x600x150" pos="4.051231421252851 3.620500000001806 1.0669279281893038" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_52" type="mesh" mesh="icra2024_board_18x600x150" pos="1.8986742042449254 3.6205000000018734 0.4153924897770144" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_105" type="mesh" mesh="icra2024_board_18x600x150" pos="-6.246999999092234 3.620500000001872 0.41100000000000003" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_118" type="mesh" mesh="icra2024_board_18x600x150" pos="-1.8167685787471488 3.6205000000018033 1.066927928189304" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_126" type="mesh" mesh="icra2024_board_18x600x150" pos="-3.6282743019552175 3.602500000001805 1.0666382281287266" euler="-0.000000 -0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_139" type="mesh" mesh="icra2024_board_18x600x150" pos="6.670000000907766 -3.6204999999981333 0.30000000000000004" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_144" type="mesh" mesh="icra2024_board_18x600x150" pos="-0.37999999909223137 -3.602499999998137 0.41100000000000003" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_151" type="mesh" mesh="icra2024_board_18x600x150" pos="2.239725698044818 -3.602499999998202 1.0666382281287212" euler="-0.000000 -0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_160" type="mesh" mesh="icra2024_board_18x600x150" pos="4.068459535928805 -3.6024999999982024 1.0721425292970994" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_172" type="mesh" mesh="icra2024_board_18x600x150" pos="-6.246999999092234 -3.620499999998136 0.41100000000000003" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_177" type="mesh" mesh="icra2024_board_18x600x150" pos="0.8030000009077662 -3.6024999999981335 0.41100000000000003" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_186" type="mesh" mesh="icra2024_board_18x600x150" pos="-1.7995404640711954 -3.602499999998204 1.0721425292970992" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x150_195" type="mesh" mesh="icra2024_board_18x600x150" pos="-3.6292314194371778 -3.6024999999982046 1.0669279281902653" euler="-0.000000 -0.293913 -3.141593" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- board_18x600x2400 (16개) -->
+    <geom name="board_18x600x2400_33" type="mesh" mesh="icra2024_board_18x600x2400" pos="5.545000000909425 2.4025000000000056 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_34" type="mesh" mesh="icra2024_board_18x600x2400" pos="0.7450000009094255 4.820500000000006 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_47" type="mesh" mesh="icra2024_board_18x600x2400" pos="3.0066309608408903 4.820499999999971 0.6347753184513704" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_66" type="mesh" mesh="icra2024_board_18x600x2400" pos="3.283369040977996 2.4024999999999705 0.6347753184513651" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_97" type="mesh" mesh="icra2024_board_18x600x2400" pos="-0.322999999090575 2.402500000000003 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_98" type="mesh" mesh="icra2024_board_18x600x2400" pos="-5.122999999090575 4.820500000000003 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_114" type="mesh" mesh="icra2024_board_18x600x2400" pos="-2.86136903915911 4.820499999999967 0.6347753184513704" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_128" type="mesh" mesh="icra2024_board_18x600x2400" pos="-2.5846309590220042 2.4024999999999683 0.6347753184513649" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_134" type="mesh" mesh="icra2024_board_18x600x2400" pos="5.545000000909425 -2.402500000000003 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_145" type="mesh" mesh="icra2024_board_18x600x2400" pos="0.7450000009094255 -4.820500000000003 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_150" type="mesh" mesh="icra2024_board_18x600x2400" pos="3.2833690409779592 -2.4025000000000367 0.6347753184513704" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_156" type="mesh" mesh="icra2024_board_18x600x2400" pos="3.0066309608408543 -4.820500000000037 0.634775318451365" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_165" type="mesh" mesh="icra2024_board_18x600x2400" pos="-0.322999999090575 -2.4025000000000047 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_176" type="mesh" mesh="icra2024_board_18x600x2400" pos="-5.122999999090575 -4.8205000000000044 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_184" type="mesh" mesh="icra2024_board_18x600x2400" pos="-2.861369039159147 -4.82050000000004 0.6347753184513647" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_18x600x2400_192" type="mesh" mesh="icra2024_board_18x600x2400" pos="-2.5846309590220407 -2.4025000000000394 0.6347753184513705" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- board_50x50x300 (38개) -->
+    <geom name="board_50x50x300_40" type="mesh" mesh="icra2024_board_50x50x300" pos="6.720000000909427 3.5865000000000054 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_41" type="mesh" mesh="icra2024_board_50x50x300" pos="6.720000000909427 2.4365000000000077 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_42" type="mesh" mesh="icra2024_board_50x50x300" pos="-0.42999999909057296 4.786500000000002 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_43" type="mesh" mesh="icra2024_board_50x50x300" pos="-0.42999999909057296 3.6505000000000014 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_48" type="mesh" mesh="icra2024_board_50x50x300" pos="4.087788992954038 4.786499999999933 1.1187405130648116" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_51" type="mesh" mesh="icra2024_board_50x50x300" pos="4.087788992954003 3.6544999999999357 1.1187405130648067" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_64" type="mesh" mesh="icra2024_board_50x50x300" pos="2.202211008864814 3.586499999999936 1.1187405130648114" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_65" type="mesh" mesh="icra2024_board_50x50x300" pos="2.202211008864848 2.4364999999999384 1.1187405130648063" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_101" type="mesh" mesh="icra2024_board_50x50x300" pos="0.8520000009094266 3.5865000000000027 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_102" type="mesh" mesh="icra2024_board_50x50x300" pos="0.8520000009094266 2.436500000000005 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_103" type="mesh" mesh="icra2024_board_50x50x300" pos="-6.297999999090573 4.786499999999998 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_104" type="mesh" mesh="icra2024_board_50x50x300" pos="-6.297999999090573 3.6544999999999983 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_106" type="mesh" mesh="icra2024_board_50x50x300" pos="-3.9659999990919 3.568500000000022 0.4499999999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_107" type="mesh" mesh="icra2024_board_50x50x300" pos="-5.115999999091914 3.568500000000022 0.4499999999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_115" type="mesh" mesh="icra2024_board_50x50x300" pos="-1.7802110070459631 4.786499999999929 1.1187405130648114" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_119" type="mesh" mesh="icra2024_board_50x50x300" pos="-1.715127018270302 3.6544999999999312 1.1384401172497933" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_120" type="mesh" mesh="icra2024_board_50x50x300" pos="-1.780211007045997 3.654499999999933 1.1187405130648065" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_125" type="mesh" mesh="icra2024_board_50x50x300" pos="-3.6657889911364543 3.5684999999999167 1.1187405130651946" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_127" type="mesh" mesh="icra2024_board_50x50x300" pos="-3.665788991135152 2.4364999999999357 1.118740513064806" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_140" type="mesh" mesh="icra2024_board_50x50x300" pos="6.720000000909427 -3.5935000000000037 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_141" type="mesh" mesh="icra2024_board_50x50x300" pos="6.720000000909427 -2.436500000000003 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_142" type="mesh" mesh="icra2024_board_50x50x300" pos="-0.42999999909057296 -3.6365000000000074 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_143" type="mesh" mesh="icra2024_board_50x50x300" pos="-0.42999999909057296 -4.790500000000007 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_149" type="mesh" mesh="icra2024_board_50x50x300" pos="2.202211008864814 -2.4365000000000716 1.1187405130648111" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_152" type="mesh" mesh="icra2024_board_50x50x300" pos="2.2022110088648477 -3.5755000000000723 1.118740513064806" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_157" type="mesh" mesh="icra2024_board_50x50x300" pos="4.087788992954003 -4.786500000000071 1.1187405130648065" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_159" type="mesh" mesh="icra2024_board_50x50x300" pos="4.087788992954037 -3.6365000000000762 1.1187405130648116" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_168" type="mesh" mesh="icra2024_board_50x50x300" pos="0.8520000009094266 -3.5685000000000087 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_169" type="mesh" mesh="icra2024_board_50x50x300" pos="0.8520000009094266 -2.436500000000005 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_170" type="mesh" mesh="icra2024_board_50x50x300" pos="-6.297999999090573 -3.654500000000009 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_171" type="mesh" mesh="icra2024_board_50x50x300" pos="-6.297999999090573 -4.786500000000009 0.4500000000000001" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_173" type="mesh" mesh="icra2024_board_50x50x300" pos="-5.115999999091914 -3.575499999999986 0.4499999999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_185" type="mesh" mesh="icra2024_board_50x50x300" pos="-1.7802110070459976 -4.786500000000074 1.118740513064806" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_187" type="mesh" mesh="icra2024_board_50x50x300" pos="-1.7802110070459631 -3.636500000000078 1.1187405130648114" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_188" type="mesh" mesh="icra2024_board_50x50x300" pos="-1.7151270182702676 -3.6295000000000757 1.1384401172497984" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_193" type="mesh" mesh="icra2024_board_50x50x300" pos="-3.6657889911351864 -2.4365000000000747 1.1187405130648114" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_196" type="mesh" mesh="icra2024_board_50x50x300" pos="-3.730872979912117 -3.5755000000000576 1.1384401172501772" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="board_50x50x300_197" type="mesh" mesh="icra2024_board_50x50x300" pos="-3.66578899113642 -3.5755000000000923 1.1187405130651897" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- crate_board (4개) -->
+    <geom name="crate_board_131" type="mesh" mesh="icra2024_crate_board" pos="5.545000000909425 -3.011500000000003 0.11999999999999988" euler="0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="crate_board_133" type="mesh" mesh="icra2024_crate_board" pos="0.7450000009094251 -4.211500000000004 0.11999999999999988" euler="0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="crate_board_153" type="mesh" mesh="icra2024_crate_board" pos="3.2312230299000713 -3.011500000000038 0.4624941716921735" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="crate_board_161" type="mesh" mesh="icra2024_crate_board" pos="3.058776971918779 -4.21150000000004 0.46249417169217355" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- k_rail_diagonal (4개) -->
+    <geom name="k_rail_diagonal_178" type="mesh" mesh="icra2024_k_rail_diagonal" pos="-0.3230000000000066 -3.011500000000008 0.061" euler="3.141593 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.6 0.005 0.0001"/>
+    <geom name="k_rail_diagonal_179" type="mesh" mesh="icra2024_k_rail_diagonal" pos="-5.123000000000006 -4.211500000000008 0.061" euler="0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.6 0.005 0.0001"/>
+    <geom name="k_rail_diagonal_182" type="mesh" mesh="icra2024_k_rail_diagonal" pos="-2.7921307253205625 -4.2115000000000435 0.40602423999097564" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.6 0.005 0.0001"/>
+    <geom name="k_rail_diagonal_191" type="mesh" mesh="icra2024_k_rail_diagonal" pos="-2.6538692746014534 -3.011500000000044 0.40602424051790054" euler="2.847679 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.6 0.005 0.0001"/>
+
+    <!-- lane_floor (16개) -->
+    <geom name="lane_floor_15" type="mesh" mesh="icra2024_lane_floor" pos="5.545000000909425 3.0115000000000056 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_24" type="mesh" mesh="icra2024_lane_floor" pos="0.7450000009094255 4.211500000000005 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_46" type="mesh" mesh="icra2024_lane_floor" pos="3.077462625888362 4.211499999999969 0.40076009410346286" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_62" type="mesh" mesh="icra2024_lane_floor" pos="3.212537375930488 3.011499999999969 0.400760094103463" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_95" type="mesh" mesh="icra2024_lane_floor" pos="-0.322999999090575 3.011500000000003 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_96" type="mesh" mesh="icra2024_lane_floor" pos="-5.122999999090575 4.211500000000003 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_113" type="mesh" mesh="icra2024_lane_floor" pos="-2.790537374111638 4.211499999999966 0.40076009410346286" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_122" type="mesh" mesh="icra2024_lane_floor" pos="-2.6554626240695125 3.011499999999967 0.40076009410346275" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_130" type="mesh" mesh="icra2024_lane_floor" pos="5.545000000909425 -3.011500000000003 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_132" type="mesh" mesh="icra2024_lane_floor" pos="0.7450000009094255 -4.211500000000004 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_147" type="mesh" mesh="icra2024_lane_floor" pos="3.212537375930488 -3.0115000000000385 0.40076009410346286" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_155" type="mesh" mesh="icra2024_lane_floor" pos="3.077462625888362 -4.211500000000039 0.40076009410346286" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_163" type="mesh" mesh="icra2024_lane_floor" pos="-0.322999999090575 -3.0115000000000047 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_164" type="mesh" mesh="icra2024_lane_floor" pos="-5.122999999090575 -4.211500000000005 0.0555" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_181" type="mesh" mesh="icra2024_lane_floor" pos="-2.790537374111638 -4.211500000000041 0.4007600941034627" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="lane_floor_190" type="mesh" mesh="icra2024_lane_floor" pos="-2.6554626240695125 -3.0115000000000407 0.4007600941034629" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+
+    <!-- pallet_step (2개) -->
+    <geom name="pallet_step_84" type="mesh" mesh="icra2024_pallet_step" pos="-6.1519999990905685 -0.6115000000000318 0.10899999999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_85" type="mesh" mesh="icra2024_pallet_step" pos="-6.1519999990905685 0.6104999999999681 0.10899999999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- pallet_step_with_pipe (8개) -->
+    <geom name="pallet_step_with_pipe_76" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-4.951999999090568 -0.6115000000000318 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_78" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-3.751999999090568 -0.6115000000000318 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_80" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-3.751999999090568 0.6104999999999681 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_82" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-4.951999999090568 0.6104999999999681 0.3" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_86" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-6.151999999090693 1.810499999999968 0.3" euler="0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_88" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-6.1519999990905685 -1.8115000000000319 0.3" euler="0.000000 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_90" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-5.751999999090197 -3.0114999999999075 0.3" euler="0.000000 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="pallet_step_with_pipe_92" type="mesh" mesh="icra2024_pallet_step_with_pipe" pos="-5.751999999092095 3.011500000000046 0.3" euler="0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- pvc_pipe_100x1200 (8개) -->
+    <geom name="pvc_pipe_100x1200_77" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-5.501999999090566 -0.6115000000000318 0.32" euler="1.570796 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_79" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-4.301999999090566 -0.6115000000000318 0.32" euler="1.570796 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_81" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-4.301999999090566 0.6104999999999681 0.32" euler="1.570796 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_83" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-5.501999999090566 0.6104999999999681 0.32" euler="1.570796 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_87" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-6.151999999090636 1.26049999999997 0.32" euler="1.570796 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_89" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-6.151999999090739 -1.2615000000000338 0.32000000000000006" euler="1.570796 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_91" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-5.751999999090367 -2.4614999999999094 0.32000000000000006" euler="1.570796 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="pvc_pipe_100x1200_93" type="mesh" mesh="icra2024_pvc_pipe_100x1200" pos="-5.751999999092038 2.461500000000048 0.32" euler="1.570796 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+
+    <!-- ramp (32개) -->
+    <geom name="ramp_16" type="mesh" mesh="icra2024_ramp" pos="4.724000000000016 2.7379999999999978 0.09508599999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_17" type="mesh" mesh="icra2024_ramp" pos="4.723999999999788 3.2879999999999976 0.09508599999999999" euler="0.000000 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_18" type="mesh" mesh="icra2024_ramp" pos="5.794000000000016 2.7379999999999973 0.09508599999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_19" type="mesh" mesh="icra2024_ramp" pos="5.793999999999787 3.2879999999999976 0.09508599999999999" euler="0.000000 0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_20" type="mesh" mesh="icra2024_ramp" pos="5.259000000000015 2.737999999999998 0.09508599999999999" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_21" type="mesh" mesh="icra2024_ramp" pos="5.259000000000015 3.2879999999999976 0.09508599999999999" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_22" type="mesh" mesh="icra2024_ramp" pos="6.329000000000016 2.7379999999999978 0.09508599999999999" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_23" type="mesh" mesh="icra2024_ramp" pos="6.329000000000015 3.2879999999999976 0.09508599999999999" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_25" type="mesh" mesh="icra2024_ramp" pos="-0.07599999999998364 3.937999999999998 0.09508599999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_26" type="mesh" mesh="icra2024_ramp" pos="-0.07600000000021216 4.487999999999998 0.09508599999999999" euler="0.000000 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_27" type="mesh" mesh="icra2024_ramp" pos="0.9940000000000158 3.9379999999999975 0.09508599999999999" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_28" type="mesh" mesh="icra2024_ramp" pos="0.9939999999997879 4.487999999999998 0.09508599999999999" euler="0.000000 0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_29" type="mesh" mesh="icra2024_ramp" pos="0.4590000000000156 3.9379999999999984 0.09508599999999999" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_30" type="mesh" mesh="icra2024_ramp" pos="0.4590000000000154 4.487999999999998 0.09508599999999999" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_31" type="mesh" mesh="icra2024_ramp" pos="1.529000000000016 3.937999999999998 0.09508599999999999" euler="-0.000000 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_32" type="mesh" mesh="icra2024_ramp" pos="1.5290000000000155 4.487999999999998 0.09508599999999999" euler="0.000000 -0.000000 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_53" type="mesh" mesh="icra2024_ramp" pos="2.280201105663343 3.9379999999999864 0.20080479595471695" euler="-0.000000 -0.293913 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_54" type="mesh" mesh="icra2024_ramp" pos="2.280201105663141 4.487999999999986 0.2008047959546532" euler="0.293913 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_55" type="mesh" mesh="icra2024_ramp" pos="3.3043168113985493 3.937999999999954 0.5107838618067175" euler="-0.000000 -0.293913 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_56" type="mesh" mesh="icra2024_ramp" pos="3.304316811398348 4.487999999999954 0.510783861806654" euler="0.293913 -0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_57" type="mesh" mesh="icra2024_ramp" pos="2.7922589585309456 3.937999999999971 0.35579432888071716" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_58" type="mesh" mesh="icra2024_ramp" pos="2.792258958530962 4.48799999999997 0.3557943288807195" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_59" type="mesh" mesh="icra2024_ramp" pos="3.816374664266153 3.9379999999999384 0.665773394732718" euler="-0.293913 0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_60" type="mesh" mesh="icra2024_ramp" pos="3.81637466426617 4.487999999999938 0.6657733947327205" euler="0.000000 0.293913 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_67" type="mesh" mesh="icra2024_ramp" pos="2.4382119889780403 2.737999999999938 0.6764922975367552" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_68" type="mesh" mesh="icra2024_ramp" pos="2.438211988977805 3.287999999999938 0.6764922975368238" euler="-0.293913 0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_69" type="mesh" mesh="icra2024_ramp" pos="3.462327694713247 2.73799999999997 0.3665132316847545" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_70" type="mesh" mesh="icra2024_ramp" pos="3.4623276947130126 3.2879999999999696 0.36651323168482297" euler="-0.293913 0.000000 -1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_71" type="mesh" mesh="icra2024_ramp" pos="2.950269841845643 2.7379999999999542 0.5215027646107551" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_72" type="mesh" mesh="icra2024_ramp" pos="2.9502698418456266 3.287999999999954 0.5215027646107575" euler="-0.000000 -0.293913 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_73" type="mesh" mesh="icra2024_ramp" pos="3.9743855475808507 2.737999999999986 0.2115236987587541" euler="0.293913 -0.000000 1.570796" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+    <geom name="ramp_74" type="mesh" mesh="icra2024_ramp" pos="3.974385547580834 3.287999999999986 0.2115236987587566" euler="-0.000000 -0.293913 -3.141593" contype="1" conaffinity="1" friction="0.7 0.005 0.0001"/>
+
+    <!-- stepover_1 (2개) -->
+    <geom name="stepover_1_110" type="mesh" mesh="icra2024_stepover_1" pos="-5.122999999090575 4.211500000000003 0.161" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="stepover_1_111" type="mesh" mesh="icra2024_stepover_1" pos="-0.322999999090575 3.011500000000003 0.161" euler="0.000000 -0.000000 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- stepover_2 (2개) -->
+    <geom name="stepover_2_117" type="mesh" mesh="icra2024_stepover_2" pos="-2.821100730604522 4.211499999999967 0.5017359884539903" euler="0.000000 -0.293913 -0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+    <geom name="stepover_2_123" type="mesh" mesh="icra2024_stepover_2" pos="-2.6248992675766285 3.0114999999999674 0.5017359884539901" euler="0.000000 0.293913 0.000000" contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+  </worldbody>
+
+  <keyframe>
+    <key name="start"
+         qpos="6.00 3.00 0.70  0 0 0 1
+               0.0  0.8 -1.5
+               0.0  0.8 -1.5
+               0.0  1.0 -1.5
+               0.0  1.0 -1.5"
+         ctrl="0 0 0  0 0 0  0 0 0  0 0 0"/>
+  </keyframe>
+
+</mujoco>

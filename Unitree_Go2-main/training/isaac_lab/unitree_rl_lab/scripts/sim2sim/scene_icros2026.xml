@@ -1,0 +1,98 @@
+<mujoco model="go2_icros2026">
+  <!--
+    ICROS 2026 Competition Sim2Sim Scene
+    실제 대회 OBJ 맵 (fullmap_ground_wall.obj) 기반 MuJoCo 환경
+
+    OBJ 좌표 단위: mm → scale="0.001 0.001 0.001" 으로 m 변환
+    맵 실제 크기 (변환 후): 8.85m × 9.09m (대회 8.8m × 9.1m 일치 ✓)
+
+    로봇 스폰 위치: 맵 시작 구역 (키프레임 "start" 참고)
+    기본 스폰 pos="0 0 0.42" → 필요 시 아래 body init pos 조정
+  -->
+
+  <include file="/home/nuri/unitree_mujoco/unitree_robots/go2/go2.xml"/>
+
+  <statistic center="0 0 0.3" extent="5.0"/>
+
+  <visual>
+    <headlight diffuse="0.7 0.7 0.7" ambient="0.4 0.4 0.4" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="-130" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient"
+             rgb1="0.4 0.6 0.8" rgb2="0.05 0.05 0.15"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker"
+             mark="edge" rgb1="0.25 0.25 0.25" rgb2="0.2 0.2 0.2"
+             markrgb="0.5 0.5 0.5" width="200" height="200"/>
+    <material name="groundplane" texture="groundplane"
+              texuniform="true" texrepeat="10 10" reflectance="0.1"/>
+    <material name="competition_map" rgba="0.7 0.65 0.6 1"/>
+
+    <!--
+      대회 맵 메쉬 로드
+      scale="0.001 0.001 0.001": OBJ가 mm 단위 → m 변환
+      smoothnormal="true": 렌더링 품질 향상
+    -->
+    <mesh name="competition_map_mesh"
+          file="fullmap_ground_wall.obj"
+          scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <worldbody>
+    <light name="sun" pos="0 0 8" dir="0 0 -1" directional="true"
+           diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2"/>
+    <light name="fill" pos="5 5 5" dir="-1 -1 -1" directional="true"
+           diffuse="0.3 0.3 0.3"/>
+
+    <!-- 안전 바닥 (맵 아래로 떨어져도 충돌) -->
+    <geom name="safety_floor" type="plane" size="50 50 0.1"
+          material="groundplane" pos="0 0 -0.5"
+          contype="1" conaffinity="1"/>
+
+    <!--
+      ICROS 2026 실제 대회 맵
+      pos: OBJ 맵을 월드 좌표에 배치
+        OBJ 맵 범위 (mm단위): x[-4920~3925], y[-7532~1560]
+        → m 단위: x[-4.92~3.93], y[-7.53~1.56]
+        pos="0.497 2.986 0": 맵 중심을 월드 원점으로 이동
+           cx = -(-4.92+3.93)/2 = 0.497
+           cy = -(-7.53+1.56)/2 = 2.986
+      로봇은 (0,0,0.42)에서 스폰 → 맵의 중심 근처에서 시작
+
+      [주의] 처음엔 로봇이 장애물 위에 스폰될 수 있음
+      → 아래 keyframe 또는 로봇 init pos를 조정하세요
+    -->
+    <geom name="competition_map" type="mesh"
+          mesh="competition_map_mesh"
+          material="competition_map"
+          pos="0.497 2.986 0"
+          contype="1" conaffinity="1"
+          friction="0.8 0.005 0.0001"/>
+  </worldbody>
+
+  <keyframe>
+    <!--
+      start: 로봇 초기 자세 (서있는 자세)
+      qpos 처음 7개: 위치(xyz) + 쿼터니언(wxyz)
+      나머지 12개: 관절각 (MuJoCo 순서)
+        FR_hip, FR_thigh, FR_calf,
+        FL_hip, FL_thigh, FL_calf,
+        RR_hip, RR_thigh, RR_calf,
+        RL_hip, RL_thigh, RL_calf
+
+      [스폰 위치 조정 방법]
+      pos x,y 값을 바꿔서 맵의 평지(시작 구역)에 로봇 배치
+      맵이 너무 높은 곳에 스폰되면 z=0.5로 올려보세요
+    -->
+    <key name="start"
+         qpos="6.00 3.00 0.70  0 0 0 1
+               -0.1  0.8 -1.5
+                0.1  0.8 -1.5
+               -0.1  1.0 -1.5
+                0.1  1.0 -1.5"
+         ctrl="0 0 0  0 0 0  0 0 0  0 0 0"/>
+  </keyframe>
+</mujoco>

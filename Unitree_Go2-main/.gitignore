@@ -1,0 +1,38 @@
+# Runtime/build outputs
+build/
+install/
+log/
+logs/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Isaac/RL training outputs
+wandb/
+runs/
+tmp/
+*.bag
+*.db3
+*.mcap
+events.out.tfevents*
+*.ckpt
+*.pth
+
+# Large local editor/cache files
+.vscode/
+**/.vscode/
+.vscode/browse.vc.db
+**/browse.vc.db*
+.vscode/ipch/
+.idea/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Source directories whose names look like runtime output.
+!third_party/unitree_sdk2/include/unitree/common/log/
+!third_party/unitree_sdk2/include/unitree/common/log/**

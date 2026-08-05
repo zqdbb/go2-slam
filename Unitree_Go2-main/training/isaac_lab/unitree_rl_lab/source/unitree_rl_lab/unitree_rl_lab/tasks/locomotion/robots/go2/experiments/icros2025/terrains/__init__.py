@@ -1,0 +1,43 @@
+from .custom_terrains import (
+    HfBridgeRampTerrainCfg,
+    HfCheckerBlocksTerrainCfg,
+    HfDiscreteObstaclesTerrainCfg,
+    HfPotholeTerrainCfg,
+    HfPyramidStairsTerrainCfg,
+    HfRoughSlopeTerrainCfg,
+    HfSmoothSlopeTerrainCfg,
+    HfSteppingSlabsTerrainCfg,
+    HfZigzagBridgeTerrainCfg,
+    bridge_ramp_terrain,
+    checker_blocks_terrain,
+    discrete_obstacles_terrain,
+    pothole_terrain,
+    pyramid_stairs_terrain,
+    rough_slope_terrain,
+    smooth_slope_terrain,
+    stepping_slabs_terrain,
+    zigzag_bridge_terrain,
+)
+
+__all__ = [
+    # Cfg classes
+    "HfPotholeTerrainCfg",
+    "HfSmoothSlopeTerrainCfg",
+    "HfRoughSlopeTerrainCfg",
+    "HfPyramidStairsTerrainCfg",
+    "HfDiscreteObstaclesTerrainCfg",
+    "HfBridgeRampTerrainCfg",
+    "HfSteppingSlabsTerrainCfg",
+    "HfZigzagBridgeTerrainCfg",
+    "HfCheckerBlocksTerrainCfg",
+    # terrain functions
+    "pothole_terrain",
+    "smooth_slope_terrain",
+    "rough_slope_terrain",
+    "pyramid_stairs_terrain",
+    "discrete_obstacles_terrain",
+    "bridge_ramp_terrain",
+    "stepping_slabs_terrain",
+    "zigzag_bridge_terrain",
+    "checker_blocks_terrain",
+]

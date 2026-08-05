@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>trg_planner_ros</name>
+  <version>1.0.0</version>
+  <description>TRG-planner ROS1 package</description>
+
+  <!-- Author and maintainers -->
+  <author email="dklee@kaist.ac.kr">Dongkyu Lee</author>
+  <maintainer email="dklee@kaist.ac.kr">Dongkyu Lee</maintainer>
+
+  <!-- License -->
+  <license>Apache-2.0</license>
+
+  <!-- Dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+
+  <exec_depend>roscpp</exec_depend>
+
+</package>

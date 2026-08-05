@@ -1,0 +1,127 @@
+# =============================================================================
+# Go2 SLAM + RL 통합 환경
+# ROS2 Humble + Classic Gazebo 11 + MuJoCo + ONNX
+# SLAM팀(Humble) 완전 호환 환경
+#
+# 빌드:
+#   cd ~/Unitree_Go2
+#   docker compose build go2-slam-rl-humble
+#
+# 실행:
+#   docker run -it --rm \
+#     --network host \
+#     -e DISPLAY=$DISPLAY \
+#     -v /tmp/.X11-unix:/tmp/.X11-unix \
+#     -v $HOME/Unitree_Go2:/workspace/Unitree_Go2 \
+#     --gpus all \
+#     go2-slam-rl:humble bash
+# =============================================================================
+FROM ros:humble-ros-base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=humble
+
+# ── 기본 도구 ────────────────────────────────────────────────────────────────
+RUN apt update && apt install -y \
+    python3-pip \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    git wget curl \
+    build-essential cmake \
+    libpcl-dev libeigen3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── Gazebo Classic 11 + ROS2 Humble 연동 ─────────────────────────────────────
+RUN apt update && apt install -y \
+    ros-humble-gazebo-ros-pkgs \
+    ros-humble-gazebo-ros2-control \
+    ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-xacro \
+    ros-humble-robot-localization \
+    ros-humble-ros2-controllers \
+    ros-humble-ros2-control \
+    ros-humble-velodyne \
+    ros-humble-velodyne-gazebo-plugins \
+    ros-humble-velodyne-description \
+    ros-humble-nav2-bringup \
+    ros-humble-nav2-msgs \
+    ros-humble-tf2-ros \
+    ros-humble-tf2-tools \
+    ros-humble-pcl-ros \
+    ros-humble-sensor-msgs-py \
+    ros-humble-rviz2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── MuJoCo 3.x ───────────────────────────────────────────────────────────────
+RUN pip3 install mujoco==3.2.6 --break-system-packages 2>/dev/null || \
+    pip3 install mujoco==3.2.6
+
+# ── ONNX Runtime ─────────────────────────────────────────────────────────────
+RUN pip3 install onnxruntime numpy --break-system-packages 2>/dev/null || \
+    pip3 install onnxruntime numpy
+
+# ── cyclonedds (unitree_sdk2py 의존성) ───────────────────────────────────────
+RUN pip3 install cyclonedds==0.10.2 --break-system-packages 2>/dev/null || \
+    pip3 install cyclonedds==0.10.2
+
+# ── Livox SDK2 (Mid-360 / livox_ros_driver2 의존성) ──────────────────────────
+RUN git clone https://github.com/Livox-SDK/Livox-SDK2.git /tmp/Livox-SDK2 && \
+    cd /tmp/Livox-SDK2 && \
+    mkdir build && cd build && \
+    cmake .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig && \
+    rm -rf /tmp/Livox-SDK2
+
+# ── FAST-LIO2 워크스페이스 ────────────────────────────────────────────────────
+RUN mkdir -p /fastlio_ws/src && \
+    cd /fastlio_ws/src && \
+    git clone https://github.com/Livox-SDK/livox_ros_driver2.git && \
+    git clone --recursive https://github.com/Ericsii/FAST_LIO_ROS2.git
+
+# FAST-LIO2 빌드: livox_ros_driver2/build.sh humble 이 /fastlio_ws 전체를 빌드한다.
+RUN cd /fastlio_ws && \
+    . /opt/ros/humble/setup.sh && \
+    ./src/livox_ros_driver2/build.sh humble
+
+# ── Mid-360 설정 파일 ─────────────────────────────────────────────────────────
+RUN mkdir -p /fastlio_ws/src/FAST_LIO_ROS2/config && \
+    cat > /fastlio_ws/src/FAST_LIO_ROS2/config/mid360_go2.yaml << 'EOF'
+common:
+    lid_topic:  "/utlidar/cloud"
+    imu_topic:  "/utlidar/imu"
+    time_sync_en: false
+preprocess:
+    lidar_type: 6
+    scan_line: 4
+    timestamp_unit: 3
+    blind: 0.5
+mapping:
+    acc_cov: 0.1
+    gyr_cov: 0.1
+    b_acc_cov: 0.0001
+    b_gyr_cov: 0.0001
+    fov_degree: 360.0
+    det_range: 40.0
+    extrinsic_est_en: false
+    extrinsic_T: [0.0, 0.0, 0.15]
+    extrinsic_R: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+publish:
+    path_en: true
+    scan_publish_en: true
+    dense_publish_en: false
+    scan_bodyframe_pub_en: true
+pcd_save:
+    pcd_save_en: false
+    interval: -1
+EOF
+
+# ── 환경 설정 ────────────────────────────────────────────────────────────────
+RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
+    echo "source /fastlio_ws/install/setup.bash 2>/dev/null || true" >> ~/.bashrc && \
+    echo 'export ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}' >> ~/.bashrc
+
+WORKDIR /workspace/Unitree_Go2
+
+CMD ["/bin/bash"]

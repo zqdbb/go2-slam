@@ -1,0 +1,21 @@
+isVerbose: false
+timer:
+  graphRate: 5.0
+  planningRate: 10.0
+map:
+  isPrebuiltMap: true
+  prebuiltMapPath: "prebuilt_maps/icra2023_easy_route_dense_trg.pcd"
+  isVoxelize: true
+  voxelSize: 0.08
+trg:
+  isPrebuiltTRG: false
+  prebuiltTRGPath: "prebuilt_graphs/icra2023_easy_route_dense_trg.pcd"
+  isUpdate: false
+  expandDist: 0.4
+  robotSize: 0.2
+  sampleNum: 100
+  heightThreshold: 0.25
+  collisionThreshold: 0.25
+  updateCollisionThreshold: 0.25
+  safetyFactor: 3.0
+  goalTolerance: 0.8

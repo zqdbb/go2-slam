@@ -1,0 +1,22 @@
+trg_ros2_node:
+  ros__parameters:
+    ros2:
+      isDebug: true
+      frameId: "map"
+      publishRate: 10.0
+      debugRate: 1.0
+      topic:
+        input:
+          egoPose: "/trg/input/default_pose"
+          egoOdom: "/fake_robot_pose"
+          obsCloud: "/trip/trip_updated/alocal_cloud"
+          goal: "/fake_goal"
+        output:
+          preMap: "/trg/output/default_preMap"
+          goal: "/trg/output/default_goal"
+          path: "/trg/output/default_path"
+        debug:
+          globalTRG: "/trg/debug/default_globalTRG"
+          localTRG: "/trg/debug/default_localTRG"
+          obsMap: "/trg/debug/default_obsMap"
+          pathInfo: "/trg/debug/default_pathInfo"

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>trg_planner_ros</name>
+  <version>1.0.0</version>
+  <description>TRG-planner ROS package</description>
+
+  <!-- Author and maintainers -->
+  <author email="dklee@kaist.ac.kr">Dongkyu Lee</author>
+  <maintainer email="dklee@kaist.ac.kr">Dongkyu Lee</maintainer>
+
+  <!-- License -->
+  <license>Apache-2.0 with Commons Clause</license>
+
+  <!-- Dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <export>
+    <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
+  </export>
+</package>

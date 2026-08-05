@@ -1,0 +1,21 @@
+isVerbose: false
+timer:
+  graphRate: 5.0
+  planningRate: 10.0
+map:
+  isPrebuiltMap: true
+  prebuiltMapPath: "prebuilt_maps/icra2024_sloped_route_start_trg.pcd"
+  isVoxelize: true
+  voxelSize: 0.1
+trg:
+  isPrebuiltTRG: false
+  prebuiltTRGPath: "prebuilt_graphs/icra2024_sloped_route_dense_a_trg.pcd"
+  isUpdate: false
+  expandDist: 0.35
+  robotSize: 0.22
+  sampleNum: 64
+  heightThreshold: 0.18
+  collisionThreshold: 0.18
+  updateCollisionThreshold: 0.18
+  safetyFactor: 3.0
+  goalTolerance: 0.8

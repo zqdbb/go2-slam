@@ -1,0 +1,51 @@
+/**:
+    ros__parameters:
+        feature_extract_enable: false
+        point_filter_num: 1
+        max_iteration: 3
+        filter_size_surf: 0.2
+        filter_size_map: 0.2
+        cube_side_length: 1000.0
+        runtime_pos_log_enable: false
+        map_file_path: "/workspace/Unitree_Go2/artifacts/slam_maps/mujoco_fastlio.pcd"
+
+        common:
+            lid_topic: "/utlidar/cloud"
+            imu_topic: "/utlidar/imu"
+            time_sync_en: false
+            time_offset_lidar_to_imu: 0.0
+
+        preprocess:
+            # MuJoCo publishes standard PointCloud2 x/y/z/intensity.
+            # FAST-LIO's known IDs are 1=Livox CustomMsg, 2=Velodyne,
+            # 3=Ouster, 4=MID360. Any other value uses the generic handler.
+            lidar_type: 5
+            scan_line: 16
+            blind: 0.25
+            timestamp_unit: 0
+            scan_rate: 10
+
+        mapping:
+            acc_cov: 0.1
+            gyr_cov: 0.1
+            b_acc_cov: 0.0001
+            b_gyr_cov: 0.0001
+            fov_degree: 360.0
+            det_range: 30.0
+            extrinsic_est_en: false
+            extrinsic_T: [0.0, 0.0, 0.15]
+            extrinsic_R: [1., 0., 0.,
+                          0., 1., 0.,
+                          0., 0., 1.]
+
+        publish:
+            path_en: true
+            effect_map_en: false
+            map_en: true
+            scan_publish_en: true
+            dense_publish_en: false
+            scan_bodyframe_pub_en: true
+
+        pcd_save:
+            pcd_save_en: true
+            interval: -1

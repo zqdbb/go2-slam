@@ -1,0 +1,21 @@
+isVerbose: false
+timer:
+  graphRate: 5.0
+  planningRate: 10.0
+map:
+  isPrebuiltMap: true
+  prebuiltMapPath: "prebuilt_maps/sim_mountain_0.1.pcd"
+  isVoxelize: false
+  voxelSize: 0.1
+trg:
+  isPrebuiltTRG: false
+  prebuiltTRGPath: "prebuilt_graphs/predefined_trg_mountain.pcd"
+  isUpdate: false
+  expandDist: 0.6
+  robotSize: 0.3
+  sampleNum: 7
+  heightThreshold: 0.16
+  collisionThreshold: 0.1
+  updateCollisionThreshold: 0.5
+  safetyFactor: 3.0
+  goalTolerance: 0.8

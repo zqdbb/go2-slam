@@ -1,0 +1,21 @@
+isVerbose: false
+timer:
+  graphRate: 5.0
+  planningRate: 10.0
+map:
+  isPrebuiltMap: true
+  prebuiltMapPath: "prebuilt_maps/icros2025_obstacles_trg.pcd"
+  isVoxelize: true
+  voxelSize: 0.1
+trg:
+  isPrebuiltTRG: false
+  prebuiltTRGPath: "prebuilt_graphs/icros2025_obstacles_trg.pcd"
+  isUpdate: false
+  expandDist: 0.28
+  robotSize: 0.3
+  sampleNum: 24
+  heightThreshold: 0.15
+  collisionThreshold: 0.1
+  updateCollisionThreshold: 0.1
+  safetyFactor: 3.0
+  goalTolerance: 0.8
