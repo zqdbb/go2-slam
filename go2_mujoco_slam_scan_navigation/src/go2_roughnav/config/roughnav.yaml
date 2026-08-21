@@ -1,0 +1,51 @@
+mujoco_go2_bridge:
+  ros__parameters:
+    model_path: mujoco/icra2023_go2_rough_course.xml
+    base_body: base_link
+    lidar_frame: lidar_link
+    imu_frame: imu_link
+    base_frame: base_link
+    odom_frame: odom
+    publish_rate_hz: 50.0
+    lidar_rate_hz: 10.0
+    lidar_range_m: 8.0
+    lidar_horizontal_samples: 180
+    lidar_vertical_samples: 16
+    lidar_vertical_fov_deg: 30.0
+    apply_cmd_vel_to_freejoint: false
+    publish_champ_joint_names: true
+    enable_viewer: true
+    publish_odom_tf: false
+    use_pd_control: true
+    pd_kp: 40.0
+    pd_kp_hip: 20.0
+    pd_kd: 1.0
+    joint_command_topic: /joint_group_effort_controller/joint_trajectory
+
+traversability_node:
+  ros__parameters:
+    pointcloud_topic: /cloud_registered
+    map_topic: /traversability_map
+    terrain_flags_topic: /roughnav/terrain_flags
+    resolution: 0.10
+    width_m: 12.0
+    height_m: 6.0
+    min_points_per_cell: 2
+    step_height_warn_m: 0.08
+    step_height_block_m: 0.18
+    unknown_is_risky: true
+
+rough_local_controller:
+  ros__parameters:
+    path_topic: /trg_path
+    odom_topic: /Odometry
+    traversability_topic: /traversability_map
+    cmd_vel_topic: /cmd_vel
+    mode_topic: /roughnav/gait_mode
+    lookahead_m: 0.75
+    max_linear_mps: 0.45
+    max_angular_rps: 0.8
+    rough_speed_scale: 0.45
+    goal_tolerance_m: 0.25
+    stuck_window_s: 1.5
+    stuck_min_progress_m: 0.05

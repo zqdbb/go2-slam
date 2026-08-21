@@ -1,0 +1,198 @@
+<mujoco model="go2_icros2025">
+  <!--
+    ICROS 2025 QRC — MuJoCo Sim2Sim
+    material별 convex OBJ 기반. 큰 벽 mesh 일부는 convex hull이 입구를 막아 visual-only 처리.
+    Gazebo pose: 0.715068 3.66371 0
+    스폰: ICROS2025 입구 앞 테스트 위치
+  -->
+
+  <include file="go2.xml"/>
+  <statistic center="2.5 -1 0.5" extent="6.0"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.2 0.2 0.2" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="-130" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient"
+             rgb1="0.4 0.5 0.7" rgb2="0.05 0.05 0.15"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker"
+             mark="edge" rgb1="0.25 0.25 0.25" rgb2="0.2 0.2 0.2"
+             markrgb="0.5 0.5 0.5" width="200" height="200"/>
+    <material name="groundplane" texture="groundplane"
+              texuniform="true" texrepeat="5 5" reflectance="0.1"/>
+    <material name="competition_map" rgba="0.58 0.55 0.51 1"
+              specular="0.1" shininess="0.1" reflectance="0.04"/>
+
+    <mesh name="icros_material214" file="icros2025/material214.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material215" file="icros2025/material215.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material216" file="icros2025/material216.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material217" file="icros2025/material217.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material218" file="icros2025/material218.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material219" file="icros2025/material219.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material220" file="icros2025/material220.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material221" file="icros2025/material221.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material222" file="icros2025/material222.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material223" file="icros2025/material223.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material224" file="icros2025/material224.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material225" file="icros2025/material225.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material226" file="icros2025/material226.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material227" file="icros2025/material227.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material228" file="icros2025/material228.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material229" file="icros2025/material229.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material230" file="icros2025/material230.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material231" file="icros2025/material231.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material232" file="icros2025/material232.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material233" file="icros2025/material233.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material234" file="icros2025/material234.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material235" file="icros2025/material235.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material236" file="icros2025/material236.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material237" file="icros2025/material237.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material238" file="icros2025/material238.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material239" file="icros2025/material239.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material240" file="icros2025/material240.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material241" file="icros2025/material241.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material242" file="icros2025/material242.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material243" file="icros2025/material243.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material244" file="icros2025/material244.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material245" file="icros2025/material245.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material246" file="icros2025/material246.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material247" file="icros2025/material247.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material248" file="icros2025/material248.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material249" file="icros2025/material249.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material250" file="icros2025/material250.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material251" file="icros2025/material251.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material252" file="icros2025/material252.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material253" file="icros2025/material253.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material254" file="icros2025/material254.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material255" file="icros2025/material255.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material256" file="icros2025/material256.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material257" file="icros2025/material257.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material258" file="icros2025/material258.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material259" file="icros2025/material259.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material260" file="icros2025/material260.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material261" file="icros2025/material261.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material262" file="icros2025/material262.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material263" file="icros2025/material263.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material264" file="icros2025/material264.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material265" file="icros2025/material265.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material266" file="icros2025/material266.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material267" file="icros2025/material267.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material268" file="icros2025/material268.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material269" file="icros2025/material269.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material270" file="icros2025/material270.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material271" file="icros2025/material271.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material272" file="icros2025/material272.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material273" file="icros2025/material273.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material274" file="icros2025/material274.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material275" file="icros2025/material275.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material276" file="icros2025/material276.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material277" file="icros2025/material277.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material278" file="icros2025/material278.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material279" file="icros2025/material279.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material280" file="icros2025/material280.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material281" file="icros2025/material281.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material282" file="icros2025/material282.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material283" file="icros2025/material283.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="icros_material284" file="icros2025/material284.obj" scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <worldbody>
+    <light name="sun" pos="2 1 12" dir="-0.1 -0.1 -1" directional="true"
+           diffuse="0.75 0.75 0.75" specular="0.1 0.1 0.1" castshadow="true"/>
+    <light name="fill_1" pos="6 6 8" dir="-0.6 -0.6 -1" directional="true"
+           diffuse="0.3 0.3 0.3" castshadow="false"/>
+    <light name="fill_2" pos="-4 -2 8" dir="0.4 0.2 -1" directional="true"
+           diffuse="0.25 0.25 0.25" castshadow="false"/>
+
+    <geom name="floor" type="plane" size="50 50 0.1"
+          material="groundplane" pos="0 0 0"
+          contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!-- material214 is the large ICROS2025 base-floor mesh; keep the MuJoCo plane instead. -->
+    <geom name="icros_material215" type="mesh" mesh="icros_material215" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material216" type="mesh" mesh="icros_material216" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material217" type="mesh" mesh="icros_material217" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material218" type="mesh" mesh="icros_material218" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material219" type="mesh" mesh="icros_material219" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material220" type="mesh" mesh="icros_material220" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material221" type="mesh" mesh="icros_material221" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material222" type="mesh" mesh="icros_material222" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material223" type="mesh" mesh="icros_material223" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material224" type="mesh" mesh="icros_material224" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material225" type="mesh" mesh="icros_material225" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material226" type="mesh" mesh="icros_material226" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material227" type="mesh" mesh="icros_material227" material="competition_map" pos="0.715068 3.66371 0" contype="0" conaffinity="0" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material228" type="mesh" mesh="icros_material228" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material229" type="mesh" mesh="icros_material229" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material230" type="mesh" mesh="icros_material230" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material231" type="mesh" mesh="icros_material231" material="competition_map" pos="0.715068 3.66371 0" contype="0" conaffinity="0" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material232" type="mesh" mesh="icros_material232" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material233" type="mesh" mesh="icros_material233" material="competition_map" pos="0.715068 3.66371 0" contype="0" conaffinity="0" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material234" type="mesh" mesh="icros_material234" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material235" type="mesh" mesh="icros_material235" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material236" type="mesh" mesh="icros_material236" material="competition_map" pos="0.715068 3.66371 0" contype="0" conaffinity="0" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material237" type="mesh" mesh="icros_material237" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material238" type="mesh" mesh="icros_material238" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material239" type="mesh" mesh="icros_material239" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material240" type="mesh" mesh="icros_material240" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material241" type="mesh" mesh="icros_material241" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material242" type="mesh" mesh="icros_material242" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material243" type="mesh" mesh="icros_material243" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material244" type="mesh" mesh="icros_material244" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material245" type="mesh" mesh="icros_material245" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material246" type="mesh" mesh="icros_material246" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material247" type="mesh" mesh="icros_material247" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material248" type="mesh" mesh="icros_material248" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material249" type="mesh" mesh="icros_material249" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material250" type="mesh" mesh="icros_material250" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material251" type="mesh" mesh="icros_material251" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material252" type="mesh" mesh="icros_material252" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material253" type="mesh" mesh="icros_material253" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material254" type="mesh" mesh="icros_material254" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material255" type="mesh" mesh="icros_material255" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material256" type="mesh" mesh="icros_material256" material="competition_map" pos="0.715068 3.66371 0" contype="0" conaffinity="0" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material257" type="mesh" mesh="icros_material257" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material258" type="mesh" mesh="icros_material258" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material259" type="mesh" mesh="icros_material259" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material260" type="mesh" mesh="icros_material260" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material261" type="mesh" mesh="icros_material261" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material262" type="mesh" mesh="icros_material262" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material263" type="mesh" mesh="icros_material263" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material264" type="mesh" mesh="icros_material264" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material265" type="mesh" mesh="icros_material265" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material266" type="mesh" mesh="icros_material266" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material267" type="mesh" mesh="icros_material267" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material268" type="mesh" mesh="icros_material268" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material269" type="mesh" mesh="icros_material269" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material270" type="mesh" mesh="icros_material270" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material271" type="mesh" mesh="icros_material271" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material272" type="mesh" mesh="icros_material272" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material273" type="mesh" mesh="icros_material273" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material274" type="mesh" mesh="icros_material274" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material275" type="mesh" mesh="icros_material275" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material276" type="mesh" mesh="icros_material276" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material277" type="mesh" mesh="icros_material277" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material278" type="mesh" mesh="icros_material278" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material279" type="mesh" mesh="icros_material279" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material280" type="mesh" mesh="icros_material280" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material281" type="mesh" mesh="icros_material281" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material282" type="mesh" mesh="icros_material282" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material283" type="mesh" mesh="icros_material283" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+    <geom name="icros_material284" type="mesh" mesh="icros_material284" material="competition_map" pos="0.715068 3.66371 0" contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+  </worldbody>
+
+  <keyframe>
+    <key name="start"
+         qpos="1.85 4.50 0.70  0.7071068 0 0 0.7071068
+               0.0  0.8 -1.5
+               0.0  0.8 -1.5
+               0.0  1.0 -1.5
+               0.0  1.0 -1.5"
+         ctrl="0 0 0  0 0 0  0 0 0  0 0 0"/>
+  </keyframe>
+
+</mujoco>

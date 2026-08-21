@@ -1,0 +1,82 @@
+<mujoco model="go2_icra2023_hard">
+  <!--
+    ICRA 2023 Quadruped Robot Challenge — Hard Course — MuJoCo Sim2Sim Scene
+
+    맵 출처: github.com/rise-lab-skku/ICRA2023_Quadruped_Robot_Challenges
+    원본 포맷: DAE (Collada) → trimesh로 OBJ 변환
+    맵 크기: 16.8m × 9.8m (Hard 버전, Easy보다 좁고 장애물 밀도 높음)
+    단위: 미터 (m), 스케일 변환 불필요
+
+    맵 중심: (5.29, 4.02) → pos로 보정
+    로봇 스폰: 맵 시작 구역 (x≈-3, y≈0 → 보정 후 x≈-8.3, y≈-4.0)
+
+    사용법:
+      python3 scripts/sim2sim/sim2sim_icros2026.py \
+        --onnx /tmp/competition_policy.onnx \
+        --scene /home/nuri/unitree_mujoco/unitree_robots/go2/scene_icra2023_hard.xml
+  -->
+
+  <include file="go2.xml"/>
+
+  <statistic center="0 0 0.5" extent="10.0"/>
+
+  <visual>
+    <headlight diffuse="0.7 0.7 0.7" ambient="0.4 0.4 0.4" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="-130" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient"
+             rgb1="0.3 0.4 0.6" rgb2="0.02 0.02 0.08"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker"
+             mark="edge" rgb1="0.2 0.2 0.2" rgb2="0.15 0.15 0.15"
+             markrgb="0.4 0.4 0.4" width="200" height="200"/>
+    <material name="groundplane" texture="groundplane"
+              texuniform="true" texrepeat="20 20" reflectance="0.1"/>
+    <material name="competition_map" rgba="0.6 0.55 0.5 1"/>
+
+    <mesh name="icra2023_hard_mesh"
+          file="icra2023/icra2023_map_hard.obj"/>
+  </asset>
+
+  <worldbody>
+    <light name="sun" pos="0 0 10" dir="0 0 -1" directional="true"
+           diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2"/>
+    <light name="fill_1" pos="5 5 6" dir="-1 -1 -1" directional="true"
+           diffuse="0.3 0.3 0.3"/>
+    <light name="fill_2" pos="-5 -5 6" dir="1 1 -1" directional="true"
+           diffuse="0.2 0.2 0.2"/>
+
+    <!-- 안전 바닥 -->
+    <geom name="safety_floor" type="plane" size="50 50 0.1"
+          material="groundplane" pos="0 0 0"
+          contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!--
+      ICRA 2023 Hard 맵
+      맵 중심 (5.29, 4.02) → 반전해서 pos로 적용
+    -->
+    <geom name="icra2023_hard" type="mesh"
+          mesh="icra2023_hard_mesh"
+          material="competition_map"
+          pos="-5.29 -4.02 0"
+          contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+  </worldbody>
+
+  <keyframe>
+    <!--
+      start: 맵 시작 구역 (Hard 코스 시작점)
+      맵 원본 시작: x≈-3, y≈0 → 보정 후: x≈-8.3, y≈-4.0
+    -->
+    <key name="start"
+         qpos="6.00 3.00 0.70  0 0 0 1
+               0.0  0.8 -1.5
+               0.0  0.8 -1.5
+               0.0  1.0 -1.5
+               0.0  1.0 -1.5"
+         ctrl="0 0 0  0 0 0  0 0 0  0 0 0"/>
+  </keyframe>
+
+</mujoco>
