@@ -94,7 +94,7 @@ SLAM Toolbox 地图必须成套保存：
     go2_humble:latest                 约 6.42 GB
     mujoco-huanghb:pi05-libero        约 18.3 GB
 
-GHCR 目标标签：
+GHCR 镜像标签：
 
     ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
     ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
@@ -119,7 +119,12 @@ GHCR 目标标签：
     docker push ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
     docker push ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
 
-当前已知状态：代码和本文档已上传 GitHub；此前服务器 Token 缺少 \`write:packages\`，两个镜像尚未成功上传。上传成功后，验证：
+镜像已成功上传。当前 digest：
+
+    go2-humble: sha256:7c63b163ca1bf9b8aa1d7c1338573bcc2ac370ab49e00e67e8f3ffac72f667b9
+    mujoco-huanghb: sha256:09691dd2539e616da623d573819ab28e60c1e764ef6281f071ffc4f700e7601a
+
+验证：
 
     docker manifest inspect ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
     docker manifest inspect ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
