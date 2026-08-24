@@ -1,16 +1,16 @@
-# Go2 MuJoCo + SLAM + Nav2 + SCAN-Planner 复现说明
+# 项目备份与完整复现
 
-本文档记录当前可运行的集成版本：
+本文档说明如何备份、恢复和复现 Go2 MuJoCo + RL 步态 + SLAM Toolbox + Nav2 + SCAN-Planner 集成项目。
 
-    MuJoCo 物理仿真 + RL 步态
-            ↓
-    点云/激光桥接 → SLAM Toolbox 建图/定位
-            ↓
-    Nav2 Navfn 全局规划 → SCAN-Planner 局部规划
-            ↓
-    闭环 cmd_vel 控制 + 卡住脱困 → RViz2
+## 1. 备份内容
 
-## 1. 版本和镜像
+项目由三部分组成：
+
+| 内容 | 备份位置 | 说明 |
+|---|---|---|
+| 源码、launch、配置、RViz、场景 | GitHub 代码仓库 | 可版本管理、可回退 |
+| 地图、RL policy、MuJoCo 网格 | GitHub 项目目录 | 当前基线已包含 |
+| ROS 2 / Python / MuJoCo 系统依赖 | GHCR Docker 镜像 | 镜像上传需要 \`write:packages\` |
 
 代码仓库：
 
@@ -20,68 +20,154 @@
 
     go2_mujoco_slam_scan_navigation/
 
-代码基线提交和标签：
+当前代码基线：
 
-    ccb895d9ad319ea2b64662d0687bdb82e07f88bf
-    go2-mujoco-slam-scan-baseline-20260821
+    commit: ccb895d9ad319ea2b64662d0687bdb82e07f88bf
+    tag:    go2-mujoco-slam-scan-baseline-20260821
 
-GHCR 镜像目标标签（当前服务器 Token 缺少 write:packages，尚未成功上传）：
+## 2. 当前代码备份
+
+本机正式修改目录：
+
+    ~/桌面/go2slam/go2_mujoco_slam_scan_navigation
+
+检查工作区并提交：
+
+    cd ~/桌面/go2slam
+    git status --short --branch
+    git add go2_mujoco_slam_scan_navigation
+    git commit -m "Describe the backup or code change"
+    git push origin main
+
+创建新的可回退标签：
+
+    git tag -a go2-baseline-$(date +%Y%m%d) \
+      -m "Go2 navigation backup"
+    git push origin --tags
+
+## 3. 从服务器同步源码
+
+服务器项目：
+
+    hongzt@192.168.100.55:~/Desktop/go2/SCAN-Planner-Ros2
+
+同步到本机项目目录时不要复制远程 \`.git\`、构建产物或残损 Git 目录：
+
+    rsync -a --info=progress2 \
+      --exclude='/.git/' \
+      --exclude='/.git.incomplete-*/' \
+      --exclude='/core' \
+      hongzt@192.168.100.55:~/Desktop/go2/SCAN-Planner-Ros2/ \
+      ~/桌面/go2slam/go2_mujoco_slam_scan_navigation/
+
+同步后检查关键文件：
+
+    test -f ~/桌面/go2slam/go2_mujoco_slam_scan_navigation/mujoco_server.py
+    test -f ~/桌面/go2slam/go2_mujoco_slam_scan_navigation/policies/model_40000.pt
+    test -f ~/桌面/go2slam/go2_mujoco_slam_scan_navigation/maps/go2_mapping_20260820_105700.posegraph
+    test -f ~/桌面/go2slam/go2_mujoco_slam_scan_navigation/maps/go2_mapping_20260820_105700.data
+
+## 4. 地图备份
+
+SLAM Toolbox 地图必须成套保存：
+
+    maps/go2_mapping_20260820_105700.posegraph
+    maps/go2_mapping_20260820_105700.data
+    maps/go2_mapping_20260820_105700.pgm
+    maps/go2_mapping_20260820_105700.yaml
+
+\`.posegraph\` 和 \`.data\` 是定位/位姿图恢复所需文件；只有 \`.pgm\` 不能恢复完整 SLAM 状态。
+
+保存新地图后：
+
+    mkdir -p maps/go2_mapping_YYYYMMDD_HHMMSS
+    cp new_map.posegraph new_map.data new_map.pgm new_map.yaml \
+      maps/go2_mapping_YYYYMMDD_HHMMSS/
+    git add maps
+    git commit -m "Add SLAM map YYYYMMDD_HHMMSS"
+    git push origin main
+
+## 5. Docker 镜像备份
+
+当前运行环境对应两个镜像：
+
+    go2_humble:latest                 约 6.42 GB
+    mujoco-huanghb:pi05-libero        约 18.3 GB
+
+GHCR 目标标签：
 
     ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
     ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
 
-go2-humble 用于 go2_mapping；mujoco-huanghb 用于 MuJoCo Python 3.12 / MuJoCo 3.8.1 后端。镜像只保存系统依赖和运行环境，源码、地图和场景文件仍来自本项目目录。
+登录 GHCR 需要 GitHub Personal Access Token：
 
-## 2. 获取代码
+    read:packages       拉取镜像
+    write:packages      上传镜像
 
-    mkdir -p ~/Desktop
-    git clone https://github.com/zqdbb/go2-slam.git ~/Desktop/go2slam
-    cd ~/Desktop/go2slam/go2_mujoco_slam_scan_navigation
-    git checkout go2-mujoco-slam-scan-baseline-20260821
-
-如果仓库默认分支配置异常，显式使用 main：
-
-    git fetch origin main
-    git switch main
-
-## 3. 拉取 GHCR 镜像
-
-需要 GitHub Personal Access Token。拉取至少需要 read:packages，上传需要额外的 write:packages。
-
-当前状态：代码与本文档已上传 GitHub；两个镜像的目标标签已经确定，但服务器现有 Token 缺少 write:packages，因此下列 docker pull 命令要在镜像完成首次上传后使用。
+服务器登录：
 
     echo "$GITHUB_TOKEN" | docker login ghcr.io \
       --username "$GITHUB_USER" --password-stdin
 
-    docker pull ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
-    docker pull ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
+打标签并上传：
 
-如需使用当前项目的本地镜像名：
+    docker tag go2_humble:latest \
+      ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
+    docker tag mujoco-huanghb:pi05-libero \
+      ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
 
-    docker tag ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821 go2_humble:latest
-    docker tag ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821 mujoco-huanghb:pi05-libero
+    docker push ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
+    docker push ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
 
-## 4. 宿主机目录和挂载
+当前已知状态：代码和本文档已上传 GitHub；此前服务器 Token 缺少 \`write:packages\`，两个镜像尚未成功上传。上传成功后，验证：
 
-服务器当前项目路径：
+    docker manifest inspect ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821
+    docker manifest inspect ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821
 
-    /home/hongzt/Desktop/go2/SCAN-Planner-Ros2
+## 6. 无 GHCR 时的离线镜像备份
 
-容器工作空间：
+如果暂时没有 \`write:packages\`，可以先在服务器导出镜像到外部磁盘。不要把这些压缩包提交到普通 GitHub 代码仓库：
 
-    /workspace
+    docker save go2_humble:latest | gzip > go2_humble_integrated_20260821.tar.gz
+    docker save mujoco-huanghb:pi05-libero | gzip > mujoco_huanghb_pi05_libero_20260821.tar.gz
+    sha256sum *_20260821.tar.gz > docker-images.sha256
 
-go2_mapping 将宿主机项目目录 bind mount 到 /workspace，所以源码更新后应重新编译，不必重新制作镜像。
+恢复：
 
-## 5. 创建 ROS 2 容器
+    sha256sum -c docker-images.sha256
+    gunzip -c go2_humble_integrated_20260821.tar.gz | docker load
+    gunzip -c mujoco_huanghb_pi05_libero_20260821.tar.gz | docker load
 
-下面与当前服务器运行方式等价；用户名、Xauthority 路径按目标机器修改：
+## 7. 从 GitHub 恢复代码
 
-    docker run -d \
-      --name go2_mapping \
-      --gpus all \
-      --network host \
-      --shm-size=64m \
+    mkdir -p ~/桌面
+    git clone https://github.com/zqdbb/go2-slam.git ~/桌面/go2slam
+    cd ~/桌面/go2slam
+    git checkout go2-mujoco-slam-scan-baseline-20260821
+
+恢复后的源码目录：
+
+    ~/桌面/go2slam/go2_mujoco_slam_scan_navigation
+
+## 8. 恢复服务器目录
+
+    ssh hongzt@192.168.100.55 'mkdir -p ~/Desktop/go2/SCAN-Planner-Ros2'
+    rsync -a --delete \
+      --exclude='/.git/' \
+      --exclude='/build/' \
+      --exclude='/install/' \
+      --exclude='/log/' \
+      ~/桌面/go2slam/go2_mujoco_slam_scan_navigation/ \
+      hongzt@192.168.100.55:~/Desktop/go2/SCAN-Planner-Ros2/
+
+\`--delete\` 只允许用于明确的项目目录，执行前必须确认目标路径正确。
+
+## 9. 恢复容器
+
+ROS 2 容器至少需要：
+
+    docker run -d --name go2_mapping \
+      --gpus all --network host --shm-size=64m \
       -v "$HOME/Desktop/go2/SCAN-Planner-Ros2:/workspace" \
       -v /tmp/.X11-unix:/tmp/.X11-unix \
       -v "$HOME/.Xauthority:/tmp/.Xauthority" \
@@ -89,23 +175,9 @@ go2_mapping 将宿主机项目目录 bind mount 到 /workspace，所以源码更
       ghcr.io/zqdbb/go2-slam/go2-humble:integrated-20260821 \
       bash /workspace/start_mapping.sh
 
-验证 Nav2：
+MuJoCo 容器：
 
-    docker exec go2_mapping bash -lc \
-      'source /opt/ros/humble/setup.bash &&
-       source /workspace/install/setup.bash &&
-       ros2 lifecycle get /planner_server'
-
-正常状态：
-
-    active [3]
-
-## 6. 创建 MuJoCo 后端容器
-
-当前 MuJoCo 容器保持运行，ROS 桥接节点通过 docker exec 启动 /tmp/mujoco_server.py：
-
-    docker run -d \
-      --name mujoco-huanghb-pi05-teleop \
+    docker run -d --name mujoco-go2-mapping \
       --shm-size=64m \
       -v /home/huanghb/workspace/lerobot:/workspace/lerobot \
       -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -113,105 +185,30 @@ go2_mapping 将宿主机项目目录 bind mount 到 /workspace，所以源码更
       ghcr.io/zqdbb/go2-slam/mujoco-huanghb:pi05-libero-20260821 \
       tail -f /dev/null
 
-验证 MuJoCo：
+## 10. 重要的容器名说明
 
-    docker exec mujoco-huanghb-pi05-teleop python3.12 -c \
-      'import mujoco; print(mujoco.__version__)'
+当前 \`integrated_navigation.launch.py\` 中配置的 MuJoCo 容器名是：
 
-应为 3.8.1 或兼容的 3.8.x。
+    mujoco-go2-mapping
 
-## 7. 编译工作空间
+服务器历史上曾使用过：
 
-完整编译：
+    mujoco-huanghb-pi05-teleop
 
-    docker exec go2_mapping bash -lc '
-      cd /workspace &&
-      source /opt/ros/humble/setup.bash &&
-      colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release &&
-      source install/setup.bash
-    '
+两者必须统一。否则需要修改 launch 文件中的 \`mujoco_container\` 参数，或将容器命名为 \`mujoco-go2-mapping\`。
 
-规划器/RViz 快速增量编译：
+## 11. 不应备份到 GitHub 的内容
 
-    docker exec go2_mapping bash -lc '
-      cd /workspace &&
-      source /opt/ros/humble/setup.bash &&
-      colcon build --packages-select traj_utils scan_planner go2_roughnav --symlink-install
-    '
+以下内容是运行产物或敏感/超大文件，应由 \`.gitignore\` 排除：
 
-## 8. 启动集成系统
+    build/
+    install/
+    log/
+    __pycache__/
+    core
+    libmujoco.so*
+    临时 map.pcd
+    None.posegraph
+    None.data
 
-    docker exec go2_mapping bash -lc '
-      source /opt/ros/humble/setup.bash &&
-      source /workspace/install/setup.bash &&
-      ros2 launch go2_roughnav integrated_navigation.launch.py
-    '
-
-也可以使用：
-
-    docker exec go2_mapping bash /workspace/start_mapping.sh
-
-## 9. 关键话题和 RViz
-
-    docker exec go2_mapping bash -lc '
-      source /opt/ros/humble/setup.bash &&
-      source /workspace/install/setup.bash &&
-      ros2 topic list | grep -E "/(map|scan|Odometry|initial_path|cmd_vel|global_costmap)"
-    '
-
-应至少包括：
-
-    /map
-    /scan
-    /Odometry
-    /initial_path
-    /cmd_vel
-    /global_costmap/costmap
-    /global_costmap/published_footprint
-    /grid_map/occupancy_inflate
-
-RViz 配置：
-
-    src/go2_roughnav/rviz/mapping.rviz
-
-包含 /map、/initial_path、Nav2 全局代价地图、Nav2 footprint、SCAN 局部膨胀障碍、最新局部轨迹和 A* 候选轨迹。
-
-## 10. 地图文件
-
-当前保存地图：
-
-    maps/go2_mapping_20260820_105700.posegraph
-    maps/go2_mapping_20260820_105700.data
-    maps/go2_mapping_20260820_105700.pgm
-    maps/go2_mapping_20260820_105700.yaml
-
-SLAM Toolbox 恢复时必须同时保留 .posegraph 和 .data；仅有 .pgm 不能恢复完整位姿图。
-
-## 11. 代码更新流程
-
-本机修改项目后：
-
-    cd ~/Desktop/go2slam/go2_mujoco_slam_scan_navigation
-    git switch -c fix/execution-collision-safety
-    git add .
-    git commit -m "Describe the change"
-    git push -u origin fix/execution-collision-safety
-
-部署到服务器后重新编译：
-
-    rsync -a --exclude='/.git/' \
-      ~/Desktop/go2slam/go2_mujoco_slam_scan_navigation/ \
-      hongzt@192.168.100.55:~/Desktop/go2/SCAN-Planner-Ros2/
-
-    ssh hongzt@192.168.100.55 \
-      'docker exec go2_mapping bash -lc "cd /workspace &&
-       source /opt/ros/humble/setup.bash &&
-       colcon build --symlink-install"'
-
-## 12. 当前限制
-
-- build/、install/、log/ 是运行产物，不纳入 Git。
-- MuJoCo 镜像很大，GHCR 推送和拉取需要较长时间。
-- MuJoCo 的 /workspace/lerobot 是宿主机挂载目录，目标机器必须准备对应路径。
-- X11 GUI 需要正确的 DISPLAY 和 Xauthority；无 GUI 环境可以关闭 viewer。
-- 当前基线仍保留执行层碰墙风险，后续安全修复应在新分支进行。
+代码、配置、地图、policy 和 MuJoCo 场景文件应保留在 GitHub 项目目录中。
