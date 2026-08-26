@@ -167,9 +167,12 @@ BT::NodeStatus Nav2NavigateToPose1::onRunning()
     "[Nav2NavigateToPose1] navigation finished with code %d",
     static_cast<int>(code));
 
-  if (code == rclcpp_action::ResultCode::CANCELED)
+  if (code != rclcpp_action::ResultCode::SUCCEEDED)
   {
-    RCLCPP_WARN(logger_, "[Nav2NavigateToPose1] navigation CANCELED");
+    RCLCPP_WARN(
+      logger_,
+      "[Nav2NavigateToPose1] navigation did not succeed (code=%d)",
+      static_cast<int>(code));
     goal_sent_ = false;
     current_goal_handle_.reset();
     return BT::NodeStatus::FAILURE;

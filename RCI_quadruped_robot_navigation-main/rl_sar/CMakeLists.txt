@@ -244,11 +244,12 @@ install(PROGRAMS
     scripts/odom_to_tf.py
     scripts/ground_truth_odom.py
     scripts/pointcloud_to_scan.py
+    scripts/generate_hotel_map.py
     DESTINATION lib/${PROJECT_NAME}
 )
 
 install(
-    DIRECTORY launch worlds config policy
+    DIRECTORY launch worlds config maps policy
     DESTINATION share/${PROJECT_NAME}/${dir}
 )
 

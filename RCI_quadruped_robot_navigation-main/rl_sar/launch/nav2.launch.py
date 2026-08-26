@@ -12,6 +12,11 @@ def generate_launch_description():
         'config',
         'nav2_params.yaml'
     )
+    map_file = os.path.join(
+        get_package_share_directory('rl_sar'),
+        'maps',
+        'hotel_l1.yaml'
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -28,12 +33,24 @@ def generate_launch_description():
                 {'use_sim_time': LaunchConfiguration('use_sim_time')},
                 {'autostart': True},
                 {'node_names': [
+                    'map_server',
                     'planner_server',
                     'controller_server',
                     'behavior_server',
                     'bt_navigator'
                 ]}
             ]
+        ),
+
+        Node(
+            package='nav2_map_server',
+            executable='map_server',
+            name='map_server',
+            output='screen',
+            parameters=[{
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'yaml_filename': map_file,
+            }]
         ),
 
         Node(
