@@ -17,6 +17,7 @@
 #include "elevator_bt/bt_nodes/nav2_navigate_to_pose.hpp"
 #include "elevator_bt/bt_nodes/get_cabin_goal.hpp"
 #include "elevator_bt/bt_nodes/wait_floor_command.hpp"
+#include "elevator_bt/bt_nodes/get_current_floor.hpp"
 
 int main(int argc, char** argv)
 {
@@ -61,6 +62,8 @@ int main(int argc, char** argv)
   factory.registerNodeType<elevator_bt::Nav2NavigateToPose1>("Nav2NavigateToPose1");
   factory.registerNodeType<elevator_bt::GetCabinGoal>("GetCabinGoal");
   factory.registerNodeType<elevator_bt::WaitFloorCommand>("WaitFloorCommand");
+  factory.registerNodeType<elevator_bt::GetCurrentFloor>("GetCurrentFloor");
+  factory.registerNodeType<elevator_bt::Nav2NavigateToPose1>("Nav2NavigateToPose");
   
   BT::Tree tree = factory.createTreeFromFile(tree_path);
 

@@ -31,6 +31,7 @@ add_executable(elevator_bt_runner
   src/bt_nodes/get_cabin_goal.cpp
   src/bt_nodes/wait_floor_command.cpp 
   src/bt_nodes/nav2_navigate_to_pose.cpp  
+  src/bt_nodes/get_current_floor.cpp
   )
 
 target_include_directories(elevator_bt_runner PUBLIC
@@ -83,6 +84,7 @@ install(DIRECTORY bt_trees/
   src/bt_nodes/wait_floor_command.cpp 
   src/bt_nodes/elevator_bt_nav2_plugin.cpp    
   src/bt_nodes/nav2_navigate_to_pose.cpp  
+  src/bt_nodes/get_current_floor.cpp
 
 )
 
