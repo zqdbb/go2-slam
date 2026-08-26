@@ -14,6 +14,7 @@ find_package(gazebo_ros REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 add_library(world_tf_publisher SHARED src/world_tf_publisher.cpp)
 target_include_directories(world_tf_publisher PRIVATE ${GAZEBO_INCLUDE_DIRS})
@@ -24,6 +25,7 @@ ament_target_dependencies(world_tf_publisher
   rclcpp
   tf2_ros
   geometry_msgs
+  nav_msgs
 )
 
 install(TARGETS world_tf_publisher

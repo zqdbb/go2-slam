@@ -5,6 +5,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
+#include <nav_msgs/msg/odometry.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2/LinearMath/Quaternion.h>
 
@@ -42,6 +43,7 @@ public:
 
     tf_broadcaster_ =
       std::make_shared<tf2_ros::TransformBroadcaster>(node_);
+    odom_pub_ = node_->create_publisher<nav_msgs::msg::Odometry>("/odom", rclcpp::QoS(10).best_effort());
 
     update_conn_ = event::Events::ConnectWorldUpdateBegin(
       std::bind(&WorldTfPublisher::OnUpdate, this));
@@ -60,6 +62,8 @@ private:
 
     // Gazebo에서 world 기준 로봇 위치/자세 읽기
     ignition::math::Pose3d pose = model_->WorldPose();
+    auto lin = model_->WorldLinearVel();
+    auto ang = model_->WorldAngularVel();
 
     // 편의를 위해 먼저 world->base_link 변환 계산
     geometry_msgs::msg::TransformStamped tf_world_base;
@@ -104,6 +108,22 @@ private:
 
       tf_broadcaster_->sendTransform(tf_world_odom);
       tf_broadcaster_->sendTransform(tf_odom_base);
+
+      nav_msgs::msg::Odometry odom;
+      odom.header.stamp = now;
+      odom.header.frame_id = odom_frame_;
+      odom.child_frame_id = base_frame_;
+      odom.pose.pose.position.x = pose.Pos().X();
+      odom.pose.pose.position.y = pose.Pos().Y();
+      odom.pose.pose.position.z = pose.Pos().Z();
+      odom.pose.pose.orientation = tf_odom_base.transform.rotation;
+      odom.twist.twist.linear.x = lin.X();
+      odom.twist.twist.linear.y = lin.Y();
+      odom.twist.twist.linear.z = lin.Z();
+      odom.twist.twist.angular.x = ang.X();
+      odom.twist.twist.angular.y = ang.Y();
+      odom.twist.twist.angular.z = ang.Z();
+      odom_pub_->publish(odom);
     }
   }
 
@@ -115,6 +135,7 @@ private:
   // ROS2
   gazebo_ros::Node::SharedPtr node_;
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
 
   // 파라미터
   std::string world_frame_{"world"};

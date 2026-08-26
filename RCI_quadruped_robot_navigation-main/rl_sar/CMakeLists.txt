@@ -242,6 +242,8 @@ install(TARGETS rl_real_l4w4 DESTINATION lib/${PROJECT_NAME})
 install(PROGRAMS
     scripts/actuator_net.py
     scripts/odom_to_tf.py
+    scripts/ground_truth_odom.py
+    scripts/pointcloud_to_scan.py
     DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -257,4 +259,3 @@ install(
 #     observation_buffer
 # )
 # install(TARGETS test_observation_buffer DESTINATION lib/${PROJECT_NAME})
-
