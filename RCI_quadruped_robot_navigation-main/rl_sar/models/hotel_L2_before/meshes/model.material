@@ -1,0 +1,104 @@
+material floor_1_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture brown_marble.png
+			}
+		}
+	}
+}
+material floor_2_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture concrete.png
+			}
+		}
+	}
+}
+material floor_3_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture concrete.png
+			}
+		}
+	}
+}
+material floor_4_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture concrete.png
+			}
+		}
+	}
+}
+material floor_5_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture concrete.png
+			}
+		}
+	}
+}
+material wall_1_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture white_brick.png
+			}
+		}
+	}
+}
+material wall_2_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture white_beige_tiles.png
+			}
+		}
+	}
+}
+material wall_3_Diffuse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture black_concrete.png
+			}
+		}
+	}
+}

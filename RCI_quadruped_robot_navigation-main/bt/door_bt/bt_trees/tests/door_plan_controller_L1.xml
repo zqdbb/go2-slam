@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="Main">
+  <BehaviorTree ID="Main">
+    <DoorPlanController
+      plan_topic="/plan"
+      world_frame="map"
+      base_frame="base_link"
+      require_feedback="true"
+      open_threshold="0.05"
+      close_threshold="0.02"
+      feedback_timeout_s="5.0"
+      cooldown_s="1.0"
+      doors_yaml="config/L1.yaml"
+    />
+  </BehaviorTree>
+</root>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="restricted_zone">
+    <static>true</static>
+    <link name="zone_link">
+      <visual name="zone_visual">
+        <!-- 거의 바닥 위에 살짝 떠 있는 얇은 판 -->
+        <pose>0 0 0.01 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>7.3 3 2.4</size>
+          </box>
+        </geometry>
+        <material>
+          <!-- 빨간색, 반투명 (a=0.4) -->
+          <ambient>1 0 0 0.2</ambient>
+          <diffuse>1 0 0 0.2</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+    </link>
+  </model>
+</sdf>

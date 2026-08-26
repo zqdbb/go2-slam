@@ -1,0 +1,9 @@
+# Goal
+bool activate
+---
+# Result
+bool success
+string message
+---
+# Feedback
+string status

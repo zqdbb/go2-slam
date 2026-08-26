@@ -1,0 +1,28 @@
+stairs:
+  stair_0_1:
+    entry:
+      up:   { x: 27.35, y: -34.25, yaw: 1.5708 }
+      down: { x: 30.50, y: -34.25, yaw: 1.5708 }  
+    landing:
+      up:   { turn1_deg: -90.0, move_d: 3.5, turn2_deg: -90.0 }
+
+    mid: { dz_from_entry: 2.5 }
+    top: { dz_from_entry: 5.0 }
+
+    speed:
+      flight:  { up: 0.50, down: 0.70 }   
+      landing: { up: 0.50, down: 0.50 }   
+
+  stair_1_2:
+    entry:
+      up:   { x: 27.35, y: -34.25, yaw: 1.5708 }
+      down: { x: 30.50, y: -34.25, yaw: 1.5708 }
+    landing:
+      up:   { turn1_deg: -90.0, move_d: 3.5, turn2_deg: -90.0 }
+
+    mid: { dz_from_entry: 2.5 }
+    top: { dz_from_entry: 5.0 }
+
+    speed:
+      flight:  { up: 0.50, down: 0.70 }   
+      landing: { up: 0.50, down: 0.50 }   

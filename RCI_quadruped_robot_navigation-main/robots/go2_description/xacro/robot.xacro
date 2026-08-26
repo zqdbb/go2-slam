@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<robot name="go2_description" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find go2_description)/urdf/go2_description.urdf"/>
+    <xacro:include filename="$(find go2_description)/xacro/gazebo.xacro"/>
+ 
+    <!-- LASER SCAN-->
+    <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
+    <xacro:VLP-16 parent="vlp16_link" name="vlp16" tf_prefix="" topic="/velodyne_points" organize_cloud="false" hz="10" lasers="16" samples="1000" collision_range="0.3" min_range="0.9" max_range="30.0" noise="0.008" min_angle="-${M_PI}" max_angle="${M_PI}" gpu="true">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    </xacro:VLP-16>
+
+    <!-- Mount for VLP-16 LiDAR -->
+    <joint name="vlp16_mount_joint" type="fixed">
+        <origin xyz="0.14543 0 0.13928" rpy="0 0 0"/>
+        <parent link="base_link"/> 
+        <child link="vlp16_link"/>
+    </joint>
+
+    <link name="vlp16_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find velodyne_description)/meshes/VLP16_scan.dae" />
+            </geometry>
+        </visual>
+    </link>
+
+
+    <!-- <xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro"/>
+    <xacro:mid360 name="livox_frame" parent="base_link" topic="livox/lidar">
+        <origin xyz="0.16143 0 0.12262" rpy="0 0.22689 0"/>
+    </xacro:mid360> -->
+
+</robot>
+
+

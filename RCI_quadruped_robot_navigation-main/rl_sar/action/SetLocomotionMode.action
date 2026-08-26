@@ -1,0 +1,9 @@
+# Goal
+int8 mode # 1: Default walk, other numbers for other modes
+---
+# Result
+bool success
+string message
+---
+# Feedback
+string status

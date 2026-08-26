@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="Main">
+
+  <BehaviorTree ID="Main">
+    <Repeat num_cycles="-1">
+
+      <Sequence name="GoToTargetFloorViaStairs">
+
+        <GetTargetFloorFromTopic
+          topic_name="/stairs/floor_request"
+          timeout="0.0"
+          target_floor="{target_floor}"/>
+
+        <GetCurrentFloor
+          map_frame="map"
+          base_frame="base_link"
+          floor0_z="0.0"
+          floor1_z="5.0"
+          floor2_z="10.0"
+          current_floor="{current_floor}"/>
+
+      </Sequence>
+    </Repeat>
+  </BehaviorTree>
+  
+  <BehaviorTree ID="StairsSubtree">
+    <Sequence name="GoToTargetFloorViaStairs">
+      <Fallback name="AlreadyThereOrMove">
+
+        <Sequence name="AlreadyThere">
+          <Inverter>
+            <CheckFloorDifferent
+                current_floor="{current_floor}"
+                target_floor="{target_floor}"
+                floors_to_climb="{floors_to_climb}"
+                direction="{direction}"/>
+          </Inverter>
+        </Sequence>
+
+        <Sequence name="MoveViaStairs">
+
+          <CheckFloorDifferent
+              current_floor="{current_floor}"
+              target_floor="{target_floor}"
+              floors_to_climb="{floors_to_climb}"
+              direction="{direction}"/>
+
+          <Repeat name="RepeatByFloors" num_cycles="{floors_to_climb}">
+
+            <Sequence name="OneFloorStep">
+
+              <GetCurrentFloor
+                  map_frame="map"
+                  base_frame="base_link"
+                  floor0_z="0.0"
+                  floor1_z="5.0"
+                  floor2_z="10.0"
+                  current_floor="{current_floor}"/>
+
+              <ComputeNextFloor
+                  current_floor="{current_floor}"
+                  direction="{direction}"
+                  next_floor="{next_floor}"/>
+
+              <SelectStairEntrance
+                  current_floor="{current_floor}"
+                  target_floor="{next_floor}"
+                  direction="{direction}"
+                  stair_yaml="/home/home/ros2_ws/install/stair_bt/share/stair_bt/config/stairs.yaml"
+                  map_frame="map"
+                  stair_id="{stair_id}"
+                  entry_pose="{stair_entry_pose}"
+                  entry_yaw="{entry_yaw}"
+                  landing_turn1_deg="{landing_turn1_deg}"
+                  landing_move_d="{landing_move_d}"
+                  landing_turn2_deg="{landing_turn2_deg}"
+                  dz_mid="{dz_mid}"
+                  dz_top="{dz_top}"
+                  flight_speed="{flight_speed}"
+                  landing_speed="{landing_speed}"/>
+                  
+              <Nav2NavigateToPose
+                  entry_pose="{stair_entry_pose}"/>
+
+              <AlignWithStairs
+                  stair_yaml="/home/home/ros2_ws/install/stair_bt/share/stair_bt/config/stairs.yaml"
+                  stair_id="{stair_id}"
+                  direction="{direction}"
+                  yaw_tolerance="0.02"
+                  angular_speed="0.5"
+                  timeout="10.0"
+                  world_frame="map"
+                  base_frame="base_link"/>
+
+              <ClimbFlightRL
+                  direction="{direction}"
+                  target_level="mid"
+                  timeout="60.0"
+                  linear_speed="{flight_speed}"
+                  dz_from_entry="{dz_mid}"
+                  reference_z="{stair_ref_z}"
+                  world_frame="map"
+                  base_frame="base_link"/>
+
+              <MoveForwardDistance
+                  distance="0.6"
+                  linear_speed="{landing_speed}"
+                  odom_frame="odom"
+                  base_frame="base_link"/>
+
+              <TurnRelative
+                  angle_deg="{landing_turn1_deg}"
+                  angular_speed="0.5"
+                  yaw_tolerance="0.02"
+                  timeout="30.0"
+                  ref_frame="map"
+                  base_frame="base_link"/>
+
+              <MoveForwardDistance
+                  distance="{landing_move_d}"
+                  linear_speed="{landing_speed}"
+                  odom_frame="odom"
+                  base_frame="base_link"/>
+
+              <TurnRelative
+                  angle_deg="{landing_turn2_deg}"
+                  angular_speed="0.5"
+                  yaw_tolerance="0.02"
+                  timeout="30.0"
+                  ref_frame="map"
+                  base_frame="base_link"/>
+
+              <ClimbFlightRL
+                  direction="{direction}"
+                  target_level="top"
+                  timeout="60.0"
+                  linear_speed="{flight_speed}"
+                  dz_from_entry="{dz_top}"
+                  reference_z="{stair_ref_z}"
+                  world_frame="map"
+                  base_frame="base_link"/>
+
+
+              <MoveForwardDistance
+                  distance="0.6"
+                  linear_speed="{landing_speed}"
+                  odom_frame="odom"
+                  base_frame="base_link"/>
+                  
+            </Sequence>
+          </Repeat>
+
+          <GetCurrentFloor
+              map_frame="map"
+              base_frame="base_link"
+              floor0_z="0.0"
+              floor1_z="5.0"
+              floor2_z="10.0"
+              current_floor="{current_floor}"/>
+
+          <Inverter>
+            <CheckFloorDifferent
+                current_floor="{current_floor}"
+                target_floor="{target_floor}"
+                floors_to_climb="{floors_to_climb}"
+                direction="{direction}"/>
+          </Inverter>
+
+        </Sequence>
+
+      </Fallback>
+
+    </Sequence>
+
+  </BehaviorTree>
+
+</root>

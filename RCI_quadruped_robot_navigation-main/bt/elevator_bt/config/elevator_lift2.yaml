@@ -1,0 +1,21 @@
+elevator:
+  namespace: "/lift2"
+  floor_heights_m: [0.0, 5.0, 10.0]
+  cabin_z_tolerance: 0.05
+  settle_time_sec: 0.8
+
+  entrances:
+    - {x: 16.880000, y: -21.197877, z: 0.0}   
+    - {x: 16.880000, y: -21.197877, z: 5.0}   
+    - {x: 16.880000, y: -21.197877, z: 10.0}   
+
+zones:
+  zone_min: [15.53, -22.3]  
+  zone_max: [18.23, -20.8]  
+
+  cabin_min: [15.53, -25.453928]
+  cabin_max: [18.23, -22.753928]
+
+robot:
+  front_offset:  0.5  
+  rear_offset:  -0.5   

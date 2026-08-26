@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.7">
+  <model name="hotel_L2">
+    <static>true</static>
+    <link name="floor_1">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_1.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_1_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_1.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_2">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_2.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_2_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_2.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_3">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_3.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_3_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_3.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_4">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_4.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_4_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_4.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_5">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_5.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_5_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_5.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_6">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_6.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete4.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_6_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_6.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_7">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_7.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/brown_marble.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_7_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_7.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_8">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_8.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_8_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_8.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="floor_9">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_9.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete4.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>floor_9_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/floor_9.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+    <link name="wall_1">
+      <visual name="wall_1">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_1.obj</uri>
+          </mesh>
+        </geometry>
+        <transparency>0.0</transparency>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/white_brick.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>wall_1_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_1.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+      <pose>2.355529015166385 -40.307008385956166 0 0 0 0</pose>
+    </link>
+    <link name="wall_2">
+      <visual name="wall_2">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_2.obj</uri>
+          </mesh>
+        </geometry>
+        <transparency>0.0</transparency>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/white_beige_tiles.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>wall_2_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_2.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+      <pose>15.187778720789478 -22.659347530605732 0 0 0 0</pose>
+    </link>
+    <link name="wall_3">
+      <visual name="wall_3">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_3.obj</uri>
+          </mesh>
+        </geometry>
+        <transparency>0.0</transparency>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/black_concrete.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>wall_3_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_3.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+      <pose>16.259484910852525 -20.43890450435132 0 0 0 0</pose>
+    </link>
+    <link name="wall_4">
+      <visual name="wall_4">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_4.obj</uri>
+          </mesh>
+        </geometry>
+        <transparency>0.0</transparency>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>0.1 0.1 0.1</specular>
+          <pbr>
+            <metal>
+              <metalness>0.0</metalness>
+              <albedo_map>model://hotel_L2/meshes/concrete4.png</albedo_map>
+            </metal>
+          </pbr>
+          <script>
+            <uri>model://hotel_L2/meshes/</uri>
+            <name>wall_4_Diffuse</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://hotel_L2/meshes/wall_4.obj</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+      <pose>29.13967897428432 -32.7876721034979 0 0 0 0</pose>
+    </link>
+  </model>
+</sdf>

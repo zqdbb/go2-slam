@@ -1,0 +1,20 @@
+elevator:
+  floor_heights:
+    1: 0.0
+    2: 5.0
+    3: 10.0
+
+floors:
+  "1":
+    floor_index: 0
+    door_yaml: "/home/home/ros2_ws/src/RCI_quadruped_robot_navigation/bt/door_bt/config/L1.yaml"
+
+
+  "2":
+    floor_index: 1
+    door_yaml: "/home/home/ros2_ws/src/RCI_quadruped_robot_navigation/bt/door_bt/config/L2.yaml"
+
+  "3":
+    floor_index: 2
+    door_yaml: "/home/home/ros2_ws/src/RCI_quadruped_robot_navigation/bt/door_bt/config/L3.yaml"
+
