@@ -92,6 +92,12 @@ def generate_launch_description():
     twist_bridge = Node(
         package='go2_twist_bridge',
         executable='twist_bridge',
+        parameters=[{
+            'max_linear_speed': 0.35,
+            'max_lateral_speed': 0.20,
+            'max_angular_speed': 0.80,
+            'command_timeout': 0.50,
+        }],
     )
     footprint_to_link = Node(
         package='go2_driver',
