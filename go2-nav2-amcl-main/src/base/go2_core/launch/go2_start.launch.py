@@ -21,6 +21,8 @@ def generate_launch_description():
         name="use_slamtoolbox",
         default_value="true"
     )
+    input_topic = DeclareLaunchArgument(
+        name="input_topic", default_value="/utlidar/cloud_deskewed")
 
     # 里程计融合imu
     go2_robot_localization = IncludeLaunchDescription(
@@ -40,7 +42,8 @@ def generate_launch_description():
     go2_pointcloud_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(go2_perception_pkg, "launch", "go2_pointcloud.launch.py")
-            )
+            ),
+            launch_arguments={"input_topic": LaunchConfiguration("input_topic")}.items()
         )
 
     # slam-toolbox 配置
@@ -62,6 +65,7 @@ def generate_launch_description():
     return LaunchDescription([
         go2_driver_launch,
         use_slamtoolbox,
+        input_topic,
         go2_robot_localization,
         go2_pointcloud_launch,
         go2_slamtoolbox_launch,

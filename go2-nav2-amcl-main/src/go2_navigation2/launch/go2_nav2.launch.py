@@ -17,7 +17,12 @@ def generate_launch_description():
     go2_core_pkg = get_package_share_directory("go2_core")
     go2_driver_pkg = get_package_share_directory("go2_driver")
 
-    use_sim_time = launch.substitutions.LaunchConfiguration('use_sim_time', default='false')
+    declare_use_sim_time = DeclareLaunchArgument('use_sim_time', default_value='false')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    declare_params = DeclareLaunchArgument(
+        'params_file', default_value=os.path.join(get_nav2_pkg, 'config', 'nav2_params.yaml'))
+    declare_rviz = DeclareLaunchArgument('use_rviz', default_value='true')
+    declare_input_topic = DeclareLaunchArgument('input_topic', default_value='/utlidar/cloud_deskewed')
     # 默认使用包内 maps/（install/share/go2_navigation2/maps），便于克隆仓库后复现
     default_map = os.path.join(get_nav2_pkg, 'maps', 'my_room.yaml')
     declare_map = DeclareLaunchArgument(
@@ -26,14 +31,19 @@ def generate_launch_description():
         description='地图 yaml 路径（与 .pgm 同目录）；可改为 ~/go2_maps/xxx.yaml',
     )
     map_yaml_path = launch.substitutions.LaunchConfiguration('map')
-    nav2_param_path = launch.substitutions.LaunchConfiguration(
-        'params_file', default=os.path.join(get_nav2_pkg, 'config', 'nav2_params.yaml'))
+    nav2_param_path = LaunchConfiguration('params_file')
     rviz_config_dir = os.path.join(get_bringup_pkg, 'rviz', 'nav2_default_view.rviz')
 
     # 包含nav2的launch文件
     nav2_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(get_bringup_pkg, "launch", "navigation_launch.py")),
-        launch_arguments=[("params_file", nav2_param_path), ("use_sim_time", use_sim_time), ("map", map_yaml_path)]
+        launch_arguments=[("params_file", nav2_param_path), ("use_sim_time", use_sim_time)]
+    )
+
+    localization_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(get_bringup_pkg, "launch", "localization_launch.py")),
+        launch_arguments=[("params_file", nav2_param_path), ("use_sim_time", use_sim_time),
+                          ("map", map_yaml_path)]
     )
 
     # --- map_server ---
@@ -85,6 +95,7 @@ def generate_launch_description():
         name='rviz2',
         arguments=['-d', rviz_config_dir],
         parameters=[{'use_sim_time': use_sim_time}],
+        condition=IfCondition(LaunchConfiguration('use_rviz')),
         output='screen'
     )
 
@@ -121,7 +132,8 @@ def generate_launch_description():
                 "launch",
                 "go2_pointcloud.launch.py",
             )
-        )
+        ),
+        launch_arguments={"input_topic": LaunchConfiguration("input_topic")}.items()
     )
 
     # 包含模型可视化
@@ -133,14 +145,12 @@ def generate_launch_description():
         )
 
     return LaunchDescription([
-        declare_map,
+        declare_map, declare_use_sim_time, declare_params, declare_rviz, declare_input_topic,
         twist_bridge,
         footprint_to_link,
         go2_driver,
         lowstate_to_imu,
-        map_server,
-        amcl,
-        lifecycle_manager,
+        localization_launch,
         nav2_launch,
         # use_imu_tf_arg,
         # imu_tf,

@@ -6,9 +6,13 @@
 // 发布坐标变换的头文件
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "tf2_ros/transform_broadcaster.h"
+#include "tf2/LinearMath/Matrix3x3.h"
+#include "tf2/LinearMath/Quaternion.h"
 // 发布关节状态信息的头文件
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "unitree_go/msg/low_state.hpp"
+#include <cmath>
+#include <string>
 
 using namespace std::placeholders;
 
@@ -26,21 +30,27 @@ public:
       // 获取参数
       // publish_tf = this->get_parameter("publish_tf").as_bool();
 
+      pose_topic_ = declare_parameter<std::string>("robot_pose_topic", "/utlidar/robot_pose");
+      sport_state_topic_ = declare_parameter<std::string>("sport_state_topic", "/lf/sportmodestate");
+      low_state_topic_ = declare_parameter<std::string>("low_state_topic", "/lf/lowstate");
+      lidar_offset_x_ = declare_parameter<double>("lidar_offset_x", 0.28945);
+      lidar_offset_y_ = declare_parameter<double>("lidar_offset_y", 0.0);
+
       //坐标变换广播器
       tf_bro_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
       //运动状态订阅
-      sub_ = this->create_subscription<unitree_go::msg::SportModeState>("/lf/sportmodestate", 10, std::bind(&Driver::state_cb, this, _1));
+      sub_ = this->create_subscription<unitree_go::msg::SportModeState>(sport_state_topic_, 10, std::bind(&Driver::state_cb, this, _1));
 
 
       odom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);
-      robot_pose_sub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>("/utlidar/robot_pose", 10, std::bind(&Driver::pose_callback, this, std::placeholders::_1));
+      robot_pose_sub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(pose_topic_, 10, std::bind(&Driver::pose_callback, this, std::placeholders::_1));
 
 
       
       //关节状态发布
       joint_state_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
-      low_state_sub_ = this->create_subscription<unitree_go::msg::LowState>("/lf/lowstate", 10, std::bind(&Driver::low_state_cb, this, std::placeholders::_1));
+      low_state_sub_ = this->create_subscription<unitree_go::msg::LowState>(low_state_topic_, 10, std::bind(&Driver::low_state_cb, this, std::placeholders::_1));
     }
 
 private:
@@ -59,6 +69,8 @@ private:
     
     // bool publish_tf, odom_published_;
     double body_height_;
+    double lidar_offset_x_, lidar_offset_y_;
+    std::string pose_topic_, sport_state_topic_, low_state_topic_;
 
     void state_cb(const unitree_go::msg::SportModeState::SharedPtr state_msg)
     {
@@ -99,9 +111,15 @@ private:
         transform.header.stamp = now;  
         transform.header.frame_id = "odom";
         transform.child_frame_id = "base_footprint";  
-        transform.transform.translation.x = msg->pose.position.x - 0.28945;  
-        transform.transform.translation.y = msg->pose.position.y;   
-        transform.transform.translation.z = msg->pose.position.z - body_height_;  
+        tf2::Quaternion q(msg->pose.orientation.x, msg->pose.orientation.y,
+                          msg->pose.orientation.z, msg->pose.orientation.w);
+        double roll, pitch, yaw;
+        tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+        const double dx = std::cos(yaw) * lidar_offset_x_ - std::sin(yaw) * lidar_offset_y_;
+        const double dy = std::sin(yaw) * lidar_offset_x_ + std::cos(yaw) * lidar_offset_y_;
+        transform.transform.translation.x = msg->pose.position.x - dx;
+        transform.transform.translation.y = msg->pose.position.y - dy;
+        transform.transform.translation.z = 0.0;
         transform.transform.rotation.x = msg->pose.orientation.x;  
         transform.transform.rotation.y = msg->pose.orientation.y;  
         transform.transform.rotation.z = msg->pose.orientation.z;  
@@ -113,7 +131,7 @@ private:
         odom.header.frame_id = "odom";    
         odom.child_frame_id = "base_footprint";    
         odom.pose.pose.position.x = transform.transform.translation.x;    
-        odom.pose.pose.position.y = msg->pose.position.y;     
+        odom.pose.pose.position.y = transform.transform.translation.y;
         odom.pose.pose.position.z = transform.transform.translation.z;    
         odom.pose.pose.orientation.x = msg->pose.orientation.x;    
         odom.pose.pose.orientation.y = msg->pose.orientation.y;    
@@ -130,7 +148,5 @@ int main(int argc, char ** argv)
     rclcpp::shutdown();
     return 0;
 }
-
-
 
 

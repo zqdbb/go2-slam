@@ -1,6 +1,12 @@
 /**:
   ros__parameters:
-    base_frame: base
+    base_frame: base_link
     odom_frame: odom
     publish_tf: true
     use_sim_time: false
+    robot_pose_topic: /utlidar/robot_pose
+    sport_state_topic: /lf/sportmodestate
+    low_state_topic: /lf/lowstate
+    # 雷达原点相对 base_footprint 的前向/左向偏移，必须按真机安装位姿复核。
+    lidar_offset_x: 0.28945
+    lidar_offset_y: 0.0

@@ -2,6 +2,7 @@
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "vector"
 #include "cstring"
+#include "string"
 
 using namespace std::chrono_literals;
 
@@ -17,15 +18,17 @@ public:
         qos.reliable();
 
         // 创建订阅方， 订阅机器狗的 /utlidar/cloud_deskewed 话题
+        input_topic_ = this->declare_parameter<std::string>("input_topic", "/utlidar/cloud_deskewed");
+        output_topic_ = this->declare_parameter<std::string>("output_topic", "/utlidar/cloud_accumulated");
         sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-            "/utlidar/cloud_deskewed",
+            input_topic_,
             rclcpp::SensorDataQoS(),
             std::bind(&CloudAccumulator::cloud_callback, this, std::placeholders::_1)
         );
 
         // 创建发布方，发布机器狗的 /utlidar/cloud_accumulated 话题
         pub_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-            "/utlidar/cloud_accumulated",
+            output_topic_,
             qos
         );
 
@@ -40,6 +43,7 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_;
     rclcpp::TimerBase::SharedPtr timer_;
+    std::string input_topic_, output_topic_;
 
     std::vector<sensor_msgs::msg::PointCloud2::ConstSharedPtr> clouds_; // 创建存储点云的容器(注意点云数据是只读的，不能被修改)
     sensor_msgs::msg::PointCloud2 accumulated_cloud_; // 创建累积点云数据
@@ -121,8 +125,13 @@ private:
         for (size_t i = 0; i < cloud.width * cloud.height; i++)
         {
             // 提取高度
+            int z_offset = -1;
+            for (const auto & field : cloud.fields) {
+                if (field.name == "z") { z_offset = static_cast<int>(field.offset); break; }
+            }
+            if (z_offset < 0 || cloud.point_step == 0) { continue; }
             float z;
-            memcpy(&z, &cloud.data[i * cloud.point_step + cloud.fields[2].offset], sizeof(float));
+            memcpy(&z, &cloud.data[i * cloud.point_step + z_offset], sizeof(float));
 
             // 只保留高度在 min_height_ 到 max_height_ 区间的点
             if(z >= min_height_ && z <= max_height_)

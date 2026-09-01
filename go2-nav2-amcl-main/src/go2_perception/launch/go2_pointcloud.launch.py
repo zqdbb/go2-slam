@@ -1,15 +1,19 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 
 
 def generate_launch_description():
-    return LaunchDescription([
+    input_topic = DeclareLaunchArgument('input_topic', default_value='/utlidar/cloud_deskewed')
+    return LaunchDescription([input_topic,
         Node(
             package='go2_perception', executable='cloud_accumulation',
             remappings=[
                 ('/utlidar/cloud_accumulated', '/trans_cloud')
                 ],
-            name='cloud_accumulation_node'
+            name='cloud_accumulation_node',
+            parameters=[{'input_topic': LaunchConfiguration('input_topic')}]
         ),
         Node(
             package='go2_perception', executable='pointcloud_to_laserscan_node',

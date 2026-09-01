@@ -5,6 +5,7 @@
 #include "nlohmann/json.hpp"
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 
 using namespace std::placeholders;
 
@@ -34,10 +35,17 @@ private:
 
         //转换
         //获取 twist 消息的线速度和角速度
+        if (!std::isfinite(twist->linear.x) || !std::isfinite(twist->linear.y) ||
+            !std::isfinite(twist->angular.z)) {
+            RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 2000,
+                "Ignoring non-finite cmd_vel");
+            return;
+        }
         double x = std::clamp(twist->linear.x, -max_linear_, max_linear_);
         double y = std::clamp(twist->linear.y, -max_lateral_, max_lateral_);
         double z = std::clamp(twist->angular.z, -max_angular_, max_angular_);
         last_command_ = now();
+        watchdog_sent_ = false;
         //默认api_id为平衡站立
         auto api_id = ROBOT_SPORT_API_ID_BALANCESTAND;
 
@@ -59,9 +67,12 @@ private:
     {
         if ((now() - last_command_).seconds() <= command_timeout_)
             return;
+        if (watchdog_sent_)
+            return;
         unitree_api::msg::Request request;
         request.header.identity.api_id = ROBOT_SPORT_API_ID_BALANCESTAND;
         request_pub_->publish(request);
+        watchdog_sent_ = true;
     }
 
     rclcpp::Publisher<unitree_api::msg::Request>::SharedPtr request_pub_;
@@ -69,6 +80,7 @@ private:
     rclcpp::TimerBase::SharedPtr watchdog_;
     rclcpp::Time last_command_;
     double max_linear_{0.35}, max_lateral_{0.20}, max_angular_{0.80}, command_timeout_{0.50};
+    bool watchdog_sent_{false};
 };
 
 int main(int argc, char ** argv)
