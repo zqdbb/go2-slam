@@ -1,0 +1,19 @@
+services:
+  go2-humble:
+    build:
+      context: .
+      dockerfile: Dockerfile.arm64.humble
+    image: go2-slam:humble-arm64
+    network_mode: host
+    ipc: host
+    privileged: true
+    environment:
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
+      RMW_IMPLEMENTATION: rmw_cyclonedds_cpp
+      DISPLAY: ${DISPLAY:-}
+    volumes:
+      - /home/unitree/unitree_ros2/cyclonedds_ws/src:/opt/unitree_src:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/go2_maps:/root/go2_maps
+    stdin_open: true
+    tty: true
