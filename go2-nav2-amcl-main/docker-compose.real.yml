@@ -14,7 +14,13 @@ services:
       DISPLAY: ${DISPLAY}
     volumes:
       - /home/unitree/unitree_ros2/cyclonedds_ws/src:/opt/unitree_src:ro
+      - unitree_build:/opt/unitree_ws/install
+      - go2_build:/opt/go2_ws/install
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${HOME}/go2_maps:/root/go2_maps
     stdin_open: true
     tty: true
+
+volumes:
+  unitree_build:
+  go2_build:
