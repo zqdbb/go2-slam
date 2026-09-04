@@ -5,7 +5,10 @@ source /opt/ros/humble/setup.bash
 if [ -d /opt/unitree_src ] && [ ! -f /opt/unitree_ws/install/setup.bash ]; then
   mkdir -p /opt/unitree_ws/src
   cp -a /opt/unitree_src/. /opt/unitree_ws/src/
-  colcon build --base-paths /opt/unitree_ws/src --install-base /opt/unitree_ws/install
+  # The Unitree source tree contains a Cyclone DDS fork that conflicts with
+  # Humble's packaged RMW; use the tested Humble RMW and build only messages.
+  colcon build --base-paths /opt/unitree_ws/src --install-base /opt/unitree_ws/install \
+    --packages-skip cyclonedds rmw_cyclonedds_cpp
 fi
 if [ -f /opt/unitree_ws/install/setup.bash ]; then
   source /opt/unitree_ws/install/setup.bash
