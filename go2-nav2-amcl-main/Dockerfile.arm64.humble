@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-humble-rviz2 ros-humble-robot-localization ros-humble-slam-toolbox \
     ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-nav2-map-server \
     ros-humble-xacro ros-humble-tf2-tools ros-humble-teleop-twist-keyboard \
-    ros-humble-pointcloud-to-laserscan && rm -rf /var/lib/apt/lists/*
+    ros-humble-pointcloud-to-laserscan ros-humble-rosidl-generator-dds-idl \
+    ros-humble-rosidl-generator-c && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/go2_ws
 COPY . /opt/go2_ws/src/go2-nav2-amcl-main
