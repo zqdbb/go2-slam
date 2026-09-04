@@ -8,9 +8,9 @@ services:
     ipc: host
     privileged: true
     environment:
-      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID}
       RMW_IMPLEMENTATION: rmw_cyclonedds_cpp
-      DISPLAY: ${DISPLAY:-}
+      DISPLAY: ${DISPLAY}
     volumes:
       - /home/unitree/unitree_ros2/cyclonedds_ws/src:/opt/unitree_src:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
