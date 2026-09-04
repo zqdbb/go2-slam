@@ -18,7 +18,9 @@ cd /opt/go2_ws
 if [ ! -f install/setup.bash ]; then
   rosdep update --rosdistro humble 2>/dev/null || true
   rosdep install --from-paths src --ignore-src -r -y --rosdistro humble || true
-  colcon build --symlink-install
+  # Keep install artifacts self-contained because /opt/go2_ws/build is not
+  # persisted between containers.
+  colcon build
 fi
 source install/setup.bash
 exec "$@"
