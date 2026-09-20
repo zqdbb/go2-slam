@@ -1,0 +1,89 @@
+<mujoco model="go2_icra2023_easy">
+  <!--
+    ICRA 2023 Quadruped Robot Challenge — Easy Course — MuJoCo Sim2Sim Scene
+
+    맵 출처: github.com/rise-lab-skku/ICRA2023_Quadruped_Robot_Challenges
+    원본 포맷: DAE (Collada) → trimesh로 OBJ 변환
+    맵 크기: 16.8m × 29.1m (Easy 버전)
+    단위: 미터 (m), 스케일 변환 불필요
+    좌표: Z_UP (MuJoCo 동일)
+
+    맵 중심: (5.31, -11.57) → pos로 보정해 월드 원점 근처에 배치
+    로봇 스폰: 맵 시작 구역 (approx x=-3, y=-23)
+
+    사용법:
+      python3 scripts/sim2sim/sim2sim_icros2026.py \
+        --onnx /tmp/competition_policy.onnx \
+        --scene /home/nuri/unitree_mujoco/unitree_robots/go2/scene_icra2023_easy.xml
+  -->
+
+  <include file="go2.xml"/>
+
+  <statistic center="0 0 0.5" extent="15.0"/>
+
+  <visual>
+    <headlight diffuse="0.7 0.7 0.7" ambient="0.4 0.4 0.4" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="-130" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient"
+             rgb1="0.4 0.6 0.8" rgb2="0.05 0.05 0.15"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker"
+             mark="edge" rgb1="0.25 0.25 0.25" rgb2="0.2 0.2 0.2"
+             markrgb="0.5 0.5 0.5" width="200" height="200"/>
+    <material name="groundplane" texture="groundplane"
+              texuniform="true" texrepeat="30 30" reflectance="0.1"/>
+    <material name="competition_map" rgba="0.75 0.65 0.55 1"/>
+
+    <!--
+      ICRA 2023 Easy 맵 메쉬
+      원본 DAE(m단위, Z_UP) → OBJ 변환, 스케일 불필요
+    -->
+    <mesh name="icra2023_easy_mesh"
+          file="icra2023/icra2023_map_easy.obj"/>
+  </asset>
+
+  <worldbody>
+    <light name="sun" pos="0 0 10" dir="0 0 -1" directional="true"
+           diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2"/>
+    <light name="fill_1" pos="8 8 6" dir="-1 -1 -1" directional="true"
+           diffuse="0.3 0.3 0.3"/>
+    <light name="fill_2" pos="-8 -8 6" dir="1 1 -1" directional="true"
+           diffuse="0.2 0.2 0.2"/>
+
+    <!-- 안전 바닥 -->
+    <geom name="safety_floor" type="plane" size="80 80 0.1"
+          material="groundplane" pos="0 0 0"
+          contype="1" conaffinity="1" friction="0.8 0.005 0.0001"/>
+
+    <!--
+      ICRA 2023 Easy 맵
+      pos: 맵 중심(-5.31, 11.57, 0)을 더해 월드 원점으로 이동
+           → 로봇 스폰(0,0)이 맵 시작 구역 근처에 위치
+    -->
+    <geom name="icra2023_easy" type="mesh"
+          mesh="icra2023_easy_mesh"
+          material="competition_map"
+          pos="-5.31 11.57 0"
+          contype="1" conaffinity="1" friction="0.5 0.005 0.0001"/>
+  </worldbody>
+
+  <keyframe>
+    <!--
+      start: 맵 시작 구역에서 스폰 (맵 남쪽 끝 근처)
+      맵 원본 시작: x≈-3, y≈-23 → pos 보정 후: x≈-8.3, y≈12.4
+      z=0.42: 바닥 위 기본 서있는 높이
+    -->
+    <key name="start"
+         qpos="6.00 3.00 0.70  0 0 0 1
+               0.0  0.8 -1.5
+               0.0  0.8 -1.5
+               0.0  1.0 -1.5
+               0.0  1.0 -1.5"
+         ctrl="0 0 0  0 0 0  0 0 0  0 0 0"/>
+  </keyframe>
+
+</mujoco>

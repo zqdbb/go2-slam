@@ -1,0 +1,22 @@
+trg_ros2_node:
+  ros__parameters:
+    ros2:
+      isDebug: true
+      frameId: "camera_init"
+      publishRate: 10.0
+      debugRate: 1.0
+      topic:
+        input:
+          egoPose: "/trg/input/default_pose"
+          egoOdom: "/Odometry"
+          obsCloud: "/cloud_registered"
+          goal: "/goal_pose"
+        output:
+          preMap: "/trg/output/pre_map"
+          goal: "/trg/output/goal"
+          path: "/path"
+        debug:
+          globalTRG: "/trg/debug/globalTRG"
+          localTRG: "/trg/debug/localTRG"
+          obsMap: "/trg/debug/obsMap"
+          pathInfo: "/trg/debug/pathInfo"

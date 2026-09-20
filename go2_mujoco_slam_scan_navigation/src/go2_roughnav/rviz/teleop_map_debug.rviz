@@ -1,0 +1,70 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Enabled: true
+      Name: Grid
+      Plane: XY
+      Plane Cell Count: 40
+      Cell Size: 1.0
+      Reference Frame: camera_init
+    - Alpha: 1
+      Class: rviz_default_plugins/PointCloud2
+      Color Transformer: AxisColor
+      Axis: Z
+      Min Color: 0; 0; 200
+      Max Color: 200; 200; 0
+      Enabled: true
+      Name: Teleop Accumulated Map
+      Size (Pixels): 2
+      Size (m): 0.04
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /teleop_map
+      Use Fixed Frame: true
+    - Alpha: 0.25
+      Class: rviz_default_plugins/PointCloud2
+      Color Transformer: FlatColor
+      Flat Color: 0; 255; 255
+      Enabled: true
+      Name: Raw Current LiDAR
+      Size (Pixels): 1
+      Size (m): 0.02
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /utlidar/cloud
+      Use Fixed Frame: true
+  Global Options:
+    Background Color: 25; 25; 30
+    Fixed Frame: camera_init
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 10
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Pitch: 0.75
+      Target Frame: camera_init
+      Yaw: 0.8
+Window Geometry:
+  Height: 900
+  Width: 1400

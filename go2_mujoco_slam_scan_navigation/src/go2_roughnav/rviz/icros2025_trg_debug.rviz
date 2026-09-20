@@ -1,0 +1,158 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Name: Tool Properties
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Enabled: true
+      Name: Grid
+      Plane: XY
+      Plane Cell Count: 40
+      Cell Size: 1.0
+      Reference Frame: camera_init
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Name: TF
+      Show Axes: true
+      Show Names: true
+      Marker Scale: 0.5
+    - Alpha: 1
+      Class: rviz_default_plugins/PointCloud2
+      Color Transformer: AxisColor
+      Axis: Z
+      Min Color: 0; 0; 200
+      Max Color: 200; 200; 0
+      Enabled: true
+      Name: FAST-LIO Map
+      Size (Pixels): 2
+      Size (m): 0.05
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /cloud_registered
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/Odometry
+      Enabled: true
+      Name: Robot Odometry
+      Topic:
+        Depth: 10
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /Odometry
+      Keep: 50
+      Shape:
+        Alpha: 0.7
+        Axes Length: 0.3
+        Axes Radius: 0.03
+        Head Length: 0.1
+        Head Radius: 0.05
+        Shaft Length: 0.3
+        Shaft Radius: 0.02
+    - Alpha: 0.85
+      Class: rviz_default_plugins/PointCloud2
+      Color Transformer: AxisColor
+      Axis: Z
+      Min Color: 20; 80; 220
+      Max Color: 240; 200; 40
+      Enabled: true
+      Name: TRG ICROS2025 Pre Map
+      Size (Pixels): 3
+      Size (m): 0.06
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /trg/output/pre_map
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: TRG Global Graph
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /trg/debug/globalTRG
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: TRG Local Graph
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /trg/debug/localTRG
+    - Class: rviz_default_plugins/Path
+      Color: 255; 80; 0
+      Enabled: true
+      Line Width: 0.10
+      Name: TRG Path
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /path
+    - Class: rviz_default_plugins/RobotModel
+      Alpha: 0.8
+      Enabled: true
+      Name: Go2 Robot
+      Description Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+    - Class: rviz_default_plugins/PointCloud2
+      Alpha: 0.6
+      Color Transformer: FlatColor
+      Flat Color: 255; 0; 0
+      Enabled: false
+      Name: Raw LiDAR (bag)
+      Size (Pixels): 1
+      Size (m): 0.02
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /lidar/points
+      Use Fixed Frame: true
+  Global Options:
+    Background Color: 25; 25; 30
+    Fixed Frame: camera_init
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 12
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Pitch: 0.75
+      Target Frame: camera_init
+      Yaw: 0.8
+Window Geometry:
+  Height: 900
+  Width: 1400

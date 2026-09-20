@@ -1,0 +1,33 @@
+path_to_cmd_vel:
+  ros__parameters:
+    path_topic: "/path"
+    odom_topic: "/Odometry"
+    cmd_vel_topic: "/cmd_vel"
+    height_scan_topic: "/rl/height_scan"
+    lookahead_m: 0.8
+    stop_dist_m: 0.35
+    stale_after_s: 1.0
+    max_lin_x: 0.35
+    max_lin_y: 0.20
+    max_ang_z: 0.70
+    yaw_gain: 1.5
+    body_x_gain: 0.6
+    body_y_gain: 0.5
+    use_height_scan_speed_limit: true
+    height_step_slow_m: 0.08
+    height_step_crawl_m: 0.16
+    unknown_slow_ratio: 0.45
+
+height_scan_bridge:
+  ros__parameters:
+    cloud_topic: "/cloud_registered"
+    odom_topic: "/Odometry"
+    out_topic: "/rl/height_scan"
+    empty_value: -1.0
+    point_stride: 1
+
+pipeline_health:
+  ros__parameters:
+    report_period_s: 2.0
+    stale_after_s: 3.0
+

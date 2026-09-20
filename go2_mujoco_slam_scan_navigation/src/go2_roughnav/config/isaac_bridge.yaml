@@ -1,0 +1,34 @@
+isaac_udp_ros2_bridge:
+  ros__parameters:
+    udp_ip: "127.0.0.1"
+    udp_port: 5010
+    lidar_topic: "/lidar/points"
+    imu_topic: "/imu/data"
+    odom_topic: "/Odometry"
+    cmd_vel_topic: "/cmd_vel"
+    isaac_cmd_ip: "127.0.0.1"
+    isaac_cmd_port: 5011
+    fixed_frame: "odom"
+    base_frame: "base_link"
+    lidar_frame: "lidar_link"
+    imu_frame: "imu_link"
+
+path_to_cmd_vel:
+  ros__parameters:
+    path_topic: "/path"
+    odom_topic: "/Odometry"
+    cmd_vel_topic: "/cmd_vel"
+    lookahead_m: 0.8
+    max_lin_x: 0.35
+    max_lin_y: 0.20
+    max_ang_z: 0.7
+
+auto_goal_publisher:
+  ros__parameters:
+    odom_topic: "/Odometry"
+    goal_topic: "/goal_pose"
+    fixed_frame: "odom"
+    goal_radius_m: 2.0
+    publish_period_s: 8.0
+    goal_tolerance_m: 0.6
+    enable: false
