@@ -82,6 +82,7 @@ def main():
             ],
             fill=254,
         )
+
         center_x = 0.5 * (cabin_min[0] + cabin_max[0])
         gap_y_min = min(cabin_max[1], zone_max[1])
         gap_y_max = max(cabin_min[1], zone_min[1])
@@ -92,6 +93,13 @@ def main():
             ],
             fill=254,
         )
+
+    # Keep the runtime-open L1_door2 passage traversable in the static map.
+    draw.rectangle(
+        [world_to_pixel(10.75, -20.15, height_px),
+         world_to_pixel(12.20, -18.90, height_px)],
+        fill=254,
+    )
 
     output_dir = package_dir / "maps"
     output_dir.mkdir(exist_ok=True)

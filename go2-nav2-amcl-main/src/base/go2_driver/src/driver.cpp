@@ -12,6 +12,7 @@
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "unitree_go/msg/low_state.hpp"
 #include <cmath>
+#include <limits>
 #include <string>
 
 using namespace std::placeholders;
@@ -74,7 +75,9 @@ private:
 
     void state_cb(const unitree_go::msg::SportModeState::SharedPtr state_msg)
     {
-        body_height_ = state_msg->body_height + 0.057 - 0.046825;   // 0.057: base_link在趴着的情况下的高度， -0.046825：雷达比base_link低这么多
+        if (std::isfinite(state_msg->body_height)) {
+            body_height_ = state_msg->body_height + 0.057 - 0.046825;
+        }
     }
 
     //订阅低层信息获取关节状态， 组织消息并发布
@@ -105,25 +108,41 @@ private:
 
      void pose_callback(const geometry_msgs::msg::PoseStamped::SharedPtr msg) // 这里拿的是robot_pose， 是机器狗雷达的位置，所以需要进行一些换算变成base_footprint的位置
     {   
+        const auto &p = msg->pose.position;
+        const auto &oq = msg->pose.orientation;
+        const double q_norm = std::sqrt(
+          oq.x * oq.x + oq.y * oq.y + oq.z * oq.z + oq.w * oq.w);
+        if (!std::isfinite(p.x) || !std::isfinite(p.y) || !std::isfinite(p.z) ||
+            !std::isfinite(oq.x) || !std::isfinite(oq.y) ||
+            !std::isfinite(oq.z) || !std::isfinite(oq.w) ||
+            !std::isfinite(q_norm) || q_norm < 1e-6) {
+          RCLCPP_WARN_THROTTLE(
+            get_logger(), *get_clock(), 2000,
+            "Ignoring invalid /utlidar/robot_pose (non-finite position or quaternion)");
+          return;
+        }
+
+        // Unitree occasionally sends a quaternion with a small norm error.
+        // Normalize it before using it in TF or extracting yaw.
+        tf2::Quaternion q(
+          oq.x / q_norm, oq.y / q_norm, oq.z / q_norm, oq.w / q_norm);
         rclcpp::Time now = this->now();
         
         geometry_msgs::msg::TransformStamped transform;
         transform.header.stamp = now;  
         transform.header.frame_id = "odom";
         transform.child_frame_id = "base_footprint";  
-        tf2::Quaternion q(msg->pose.orientation.x, msg->pose.orientation.y,
-                          msg->pose.orientation.z, msg->pose.orientation.w);
         double roll, pitch, yaw;
         tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
         const double dx = std::cos(yaw) * lidar_offset_x_ - std::sin(yaw) * lidar_offset_y_;
         const double dy = std::sin(yaw) * lidar_offset_x_ + std::cos(yaw) * lidar_offset_y_;
-        transform.transform.translation.x = msg->pose.position.x - dx;
-        transform.transform.translation.y = msg->pose.position.y - dy;
+        transform.transform.translation.x = p.x - dx;
+        transform.transform.translation.y = p.y - dy;
         transform.transform.translation.z = 0.0;
-        transform.transform.rotation.x = msg->pose.orientation.x;  
-        transform.transform.rotation.y = msg->pose.orientation.y;  
-        transform.transform.rotation.z = msg->pose.orientation.z;  
-        transform.transform.rotation.w = msg->pose.orientation.w;  
+        transform.transform.rotation.x = q.x();
+        transform.transform.rotation.y = q.y();
+        transform.transform.rotation.z = q.z();
+        transform.transform.rotation.w = q.w();
         tf_bro_->sendTransform(transform);  
 
         nav_msgs::msg::Odometry odom;    
@@ -133,10 +152,10 @@ private:
         odom.pose.pose.position.x = transform.transform.translation.x;    
         odom.pose.pose.position.y = transform.transform.translation.y;
         odom.pose.pose.position.z = transform.transform.translation.z;    
-        odom.pose.pose.orientation.x = msg->pose.orientation.x;    
-        odom.pose.pose.orientation.y = msg->pose.orientation.y;    
-        odom.pose.pose.orientation.z = msg->pose.orientation.z;    
-        odom.pose.pose.orientation.w = msg->pose.orientation.w;    
+        odom.pose.pose.orientation.x = q.x();
+        odom.pose.pose.orientation.y = q.y();
+        odom.pose.pose.orientation.z = q.z();
+        odom.pose.pose.orientation.w = q.w();
         odom_pub_->publish(odom);   
     }
 };
@@ -148,5 +167,4 @@ int main(int argc, char ** argv)
     rclcpp::shutdown();
     return 0;
 }
-
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 
+# ROS setup scripts reference optional variables; source them before enabling
+# nounset so a clean container shell does not fail during environment setup.
 source /opt/ros/humble/setup.bash
 if [ -f /opt/unitree_ws/install/setup.bash ]; then
   source /opt/unitree_ws/install/setup.bash
@@ -8,6 +10,8 @@ fi
 if [ -f /opt/go2_ws/install/setup.bash ]; then
   source /opt/go2_ws/install/setup.bash
 fi
+
+set -u
 
 export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-0}"
 

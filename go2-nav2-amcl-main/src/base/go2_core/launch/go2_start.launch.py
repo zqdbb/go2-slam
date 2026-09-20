@@ -22,7 +22,7 @@ def generate_launch_description():
         default_value="true"
     )
     input_topic = DeclareLaunchArgument(
-        name="input_topic", default_value="/utlidar/cloud_deskewed")
+        name="input_topic", default_value="/utlidar/cloud_base")
 
     # 里程计融合imu
     go2_robot_localization = IncludeLaunchDescription(

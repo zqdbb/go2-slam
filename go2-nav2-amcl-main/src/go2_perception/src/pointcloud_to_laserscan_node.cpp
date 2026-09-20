@@ -62,6 +62,8 @@ PointCloudToLaserScanNode::PointCloudToLaserScanNode(const rclcpp::NodeOptions &
 {
   target_frame_ = this->declare_parameter("target_frame", "");
   tolerance_ = this->declare_parameter("transform_tolerance", 0.01);
+  normalize_timestamp_ = this->declare_parameter("normalize_timestamp", false);
+  timestamp_offset_ = this->declare_parameter("timestamp_offset", 0.0);
   // TODO(hidmic): adjust default input queue size based on actual concurrency levels
   // achievable by the associated executor
   // input_queue_size_ = this->declare_parameter(
@@ -157,11 +159,25 @@ void PointCloudToLaserScanNode::cloudCallback(
   auto scan_msg = std::make_unique<sensor_msgs::msg::LaserScan>();
   scan_msg->header = cloud_msg->header;
 
+  // Unitree lidar messages may carry device-clock timestamps while TF uses
+  // the ROS host clock.  For a cloud already in base_link, normalize the
+  // outgoing scan timestamp so downstream consumers do not reject it as old.
+  if (normalize_timestamp_) {
+    const double safe_offset = std::max(0.0, timestamp_offset_);
+    scan_msg->header.stamp =
+      this->get_clock()->now() - rclcpp::Duration::from_seconds(safe_offset);
+  }
+
   // // 将时间戳修改为当前时间
   // scan_msg->header.stamp = now();
-  
+
   if (!target_frame_.empty()) {
     scan_msg->header.frame_id = target_frame_;
+  } else {
+    // Ensure frame_id is valid when target_frame_ is empty
+    if (scan_msg->header.frame_id.empty()) {
+      scan_msg->header.frame_id = cloud_msg->header.frame_id;
+    }
   }
 
   scan_msg->angle_min = angle_min_;

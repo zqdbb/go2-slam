@@ -75,33 +75,10 @@ private:
         // 发布 IMU 消息
         imu_pub_->publish(std::move(imu_msg));
 
-        // 发布 TF 变换
-        publish_tf_transform();
+        // base_link -> imu is a static URDF relation and is published by
+        // robot_state_publisher. Do not publish a competing dynamic TF here.
     }
 
-    // 发布 TF 变换
-    void publish_tf_transform()
-    {
-        geometry_msgs::msg::TransformStamped tf;
-        
-        tf.header.stamp = this->now();
-        tf.header.frame_id = "base_link";    
-        tf.child_frame_id = "imu";          
-        
-        // IMU相对于base_link的精确位置（从urdf文件中获取）
-        tf.transform.translation.x = -0.02557;  // 前向偏移2.557cm
-        tf.transform.translation.y = 0.0;
-        tf.transform.translation.z = 0.04232;   // 向上偏移4.232cm
-        
-        // 直接设置四元数
-        tf.transform.rotation.x = 0.0;
-        tf.transform.rotation.y = 0.0;
-        tf.transform.rotation.z = 0.0;
-        tf.transform.rotation.w = 1.0;  // 单位四元数，无旋转
-        
-        // 发送TF变换
-        tf_broadcaster_->sendTransform(tf);
-    }
 };
 
 int main(int argc, char * argv[])
